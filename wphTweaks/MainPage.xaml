@@ -70,10 +70,12 @@
                 </Grid>
             </controls:PivotItem>
             <controls:PivotItem Header="tools">
+                <ScrollViewer>
                 <StackPanel>
                     <Button Content="rearrange settings" Height="72" Width="360" Click="rearrangeSettingsBtn_Click" />
                     <Button Content="add google search to ie" Height="72" Width="360" Click="btn_Click" />
                     <Button Content="choose marketplace" Height="72" Name="btnUnlockMarketplace" Width="360" Click="btnUnlockMarketplace_Click" />
+                    <Button Content="customize keyboard" Height="72" Name="btnCustomizeKeyboard" Width="360" Click="btnCustomizeKeyboard_Click" />
                     
                     <Button Content="disable branded updates" Height="72" Name="btnBrandedUpdates" Width="360" Click="btnBrandedUpdates_Click" />
                     <Button Content="enable branded updates" Height="72" Name="btnEnableBrandedUpdates" Width="360" Click="btnEnableBrandedUpdates_Click" />
@@ -84,6 +86,7 @@
 
                     <Button Content="restart phone" Height="72" x:Name="btnRestart" VerticalAlignment="Top" Width="360" Click="btnRestart_Click" FontFamily="Segoe WP Light" BorderBrush="#FFBE3A3A" Margin="48,0" />
                 </StackPanel>
+                </ScrollViewer>
             </controls:PivotItem>
             <controls:PivotItem Header="about">
                 <Grid x:Name="aboutGrid">

@@ -286,5 +286,10 @@ namespace wphTweaks
             NavigationService.Navigate(new Uri("/pivotSplash.xaml", UriKind.Relative));
         }
 
+        private void btnCustomizeKeyboard_Click(object sender, RoutedEventArgs e)
+        {
+            NavigationService.Navigate(new Uri("/Keyboard.xaml", UriKind.Relative));
+        }
+
     }
 }
