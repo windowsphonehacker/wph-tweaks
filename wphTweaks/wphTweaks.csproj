@@ -48,15 +48,11 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Google.AdMob.Ads.WindowsPhone7">
-      <HintPath>..\..\..\..\..\Downloads\googleadmobadssdkwindowsphone7\GoogleAdMobAdsSDKWindowsPhone7-4.0.4\sdk\Google.AdMob.Ads.WindowsPhone7.dll</HintPath>
-    </Reference>
-    <Reference Include="lockWidgets">
-      <HintPath>..\..\keepAliveStr\lockWidgets\Bin\Debug\lockWidgets.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.Phone" />
     <Reference Include="Microsoft.Phone.Controls, Version=7.0.0.0, Culture=neutral, PublicKeyToken=24eec0d8c86cda1e, processorArchitecture=MSIL" />
-    <Reference Include="Microsoft.Phone.Controls.Toolkit, Version=7.0.0.0, Culture=neutral, PublicKeyToken=b772ad94eb9ca604, processorArchitecture=MSIL" />
+    <Reference Include="Microsoft.Phone.Controls.Toolkit">
+      <HintPath>..\packages\WPtoolkit.4.2013.08.16\lib\sl4-windowsphone71\Microsoft.Phone.Controls.Toolkit.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Phone.Interop" />
     <Reference Include="System.Windows" />
     <Reference Include="system" />
@@ -66,8 +62,8 @@
     <Reference Include="mscorlib.extensions" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Xml.Serialization" />
-    <Reference Include="WP7RootToolsSDK-0.2.1.0">
-      <HintPath>..\..\..\..\Downloads\WP7 Root Tools SDK 0.2.1.0 alpha\WP7RootToolsSDK-0.2.1.0.dll</HintPath>
+    <Reference Include="WP7RootToolsSDK-1.1.0.0">
+      <HintPath>..\Libs\WP7RootToolsSDK-1.1.0.0.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -179,26 +175,34 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <None Include="packages.config" />
     <None Include="Properties\AppManifest.xml" />
     <None Include="Properties\WMAppManifest.xml">
       <SubType>Designer</SubType>
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="..\Libs\DllImportMango.dll">
+      <Link>DllImportMango.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\Libs\WP7RootToolsSDKNative-1.1.0.0.dll">
+      <Link>WP7RootToolsSDKNative-1.1.0.0.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="ApplicationIcon.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Background.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="DllImportMango.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
+    <Content Include="README_FIRST.txt" />
     <Content Include="SplashScreenImage.jpg" />
-    <Content Include="WP7RootToolsSDK-ReadMe.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="WP7RootToolsSDKNative-0.2.1.0.dll" />
+    <Content Include="Toolkit.Content\ApplicationBar.Add.png" />
+    <Content Include="Toolkit.Content\ApplicationBar.Cancel.png" />
+    <Content Include="Toolkit.Content\ApplicationBar.Check.png" />
+    <Content Include="Toolkit.Content\ApplicationBar.Delete.png" />
+    <Content Include="Toolkit.Content\ApplicationBar.Select.png" />
     <Content Include="WPInteropManifest.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

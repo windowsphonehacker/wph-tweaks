@@ -1,0 +1,35 @@
+Changelog WP7 Root Tools SDK
+
+Version 1.1.0.0:
+
+- FIX: In previous version "RegistryHyve" was changed to "RegistryHive". The examples in the file
+       "WP7RootToolsSDK-Examples.txt" now reflect those changes.
+- FIX: Some special characters in the registry key name caused a failure while reading the registry-
+       key.
+
+Version 1.0.0.0:
+
+- FIX: Serveral bug-fixes in the FileStream class
+- FIX: Renamed "RegistryHyve" to "RegistryHive". This was a typo. This is a breaking change! Rename
+       this in your existing code!
+- NEW: void Environment.WindowsRestart()
+- NEW: void Environment.WindowsShutdown()
+- NEW: void Environment.WindowsSleep()
+
+Version 0.2.1.0:
+
+- FIX: It was not possible to get the contents of the root-folder.
+- FIX: Massive performance-improvement for getting folder-contents (THANKS A LOT TO: ULTRASHOT)
+- NEW: string Environment.ProcessConfigXml(string ConfigXml)
+- NEW: FileStream.Seek()
+- NEW: string[] Registry.GetMultiStringValue(RegistryHyve Root, string Key, string ValueName)
+- NEW: void Registry.SetMultiStringValue(RegistryHyve Root, string Key, string ValueName, string[]
+       Value)
+- NEW: byte[] Registry.GetBinaryValue(RegistryHyve Root, string Key, string ValueName)
+- NEW: void Registry.SetBinaryValue(RegistryHyve Root, string Key, string ValueName, byte[] Value)
+- NEW: void Environment.ShellExecute(string Application)
+- NEW: void Environment.ShellExecute(string Application, string Arguments)
+
+Version 0.1.6.0:
+
+- Initial public release.
