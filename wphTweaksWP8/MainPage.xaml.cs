@@ -52,6 +52,9 @@ namespace wphTweaks
 
                             }
                             control.IsChecked = (val == tweak.onValue);
+#if DEBUG
+                            System.Diagnostics.Debug.WriteLine(tweak.title + " = " + val);
+#endif
                         }
                         if (tweak.keyType == Tweak.tweakType.str)
                         {
@@ -64,6 +67,9 @@ namespace wphTweaks
                             {
                             }
                             control.IsChecked = (val == tweak.strOnValue);
+#if DEBUG
+                            System.Diagnostics.Debug.WriteLine(tweak.title + " = " + val);
+#endif
                         }
 
                         control.Checked += new EventHandler<RoutedEventArgs>(control_Checked);
@@ -169,17 +175,17 @@ namespace wphTweaks
                         if (tweak.keyType == Tweak.tweakType.str)
                         {
                             string val = ((SelectorTweak)ctrl.SelectedItem).Value;
-                            //WP7RootToolsSDK.Registry.SetStringValue(tweak.getHyve(), tweak.getKeyName(), tweak.getValueName(), val);
+                            NativeRegistry.WriteString(tweak.getHive(), tweak.getKeyName(), tweak.getValueName(), val);
                             System.Diagnostics.Debug.WriteLine(val);
                         }
                         else
                         {
                             try {
-                                //WP7RootToolsSDK.Registry.CreateKey(tweak.getHyve(), tweak.getKeyName());
+                                NativeRegistry.CreateKey(tweak.getHive(), tweak.getKeyName());
                             } catch {
                             }
                             int val = ((SelectorTweak)ctrl.SelectedItem).IntValue;
-                            //WP7RootToolsSDK.Registry.SetDWordValue(tweak.getHyve(), tweak.getKeyName(), tweak.getValueName(), (uint)val);
+                            NativeRegistry.WriteDWORD(tweak.getHive(), tweak.getKeyName(), tweak.getValueName(), (uint)val);
                             if (tweak.rebootNeeded)
                                 rbneeded();
                         }
@@ -202,18 +208,23 @@ namespace wphTweaks
                         {
                             try
                             {
-                                //WP7RootToolsSDK.Registry.CreateKey(tweak.getHyve(), tweak.getKeyName());
+                                NativeRegistry.CreateKey(tweak.getHive(), tweak.getKeyName());
                             }
                             catch
                             {
                             }
                             int val = (ctrl.IsChecked.Value ? tweak.onValue : tweak.offValue);
-                            //WP7RootToolsSDK.Registry.SetDWordValue(tweak.getHyve(), tweak.getKeyName(), tweak.getValueName(), (uint)val);
+                            bool b = NativeRegistry.WriteDWORD(tweak.getHive(), tweak.getKeyName(), tweak.getValueName(), (uint)val);
+                            if (!b)
+                            {
+                                MessageBox.Show("Failed: " + (CSharp___DllImport.Win32ErrorCode)NativeRegistry.GetError());
+                                
+                            }
                         }
                         else
                         {
                             string val = (ctrl.IsChecked.Value ? tweak.strOnValue : tweak.strOffValue);
-                            //WP7RootToolsSDK.Registry.SetStringValue(tweak.getHyve(), tweak.getKeyName(), tweak.getValueName(), val);
+                            NativeRegistry.WriteString(tweak.getHive(), tweak.getKeyName(), tweak.getValueName(), val);
                         }
                         if (tweak.rebootNeeded)
                         {

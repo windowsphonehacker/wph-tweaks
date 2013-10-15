@@ -120,6 +120,9 @@
     <Compile Include="..\wphTweaks\DisclaimerPage.xaml.cs">
       <Link>DisclaimerPage.xaml.cs</Link>
     </Compile>
+    <Compile Include="..\wphTweaks\NegativeValueConverter.cs">
+      <Link>NegativeValueConverter.cs</Link>
+    </Compile>
     <Compile Include="..\wphTweaks\PullDownToRefreshPanel.cs">
       <Link>PullDownToRefreshPanel.cs</Link>
     </Compile>
@@ -129,10 +132,11 @@
     <Compile Include="..\wphTweaks\ReorderListBoxItem.cs">
       <Link>ReorderListBoxItem.cs</Link>
     </Compile>
+    <Compile Include="Code\Win32ErrorCode.cs" />
+    <Compile Include="Code\WinError.cs" />
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="NegativeValueConverter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Tweak.cs" />
   </ItemGroup>
@@ -178,10 +182,6 @@
     <Content Include="Toolkit.Content\ApplicationBar.Check.png" />
     <Content Include="Toolkit.Content\ApplicationBar.Delete.png" />
     <Content Include="Toolkit.Content\ApplicationBar.Select.png" />
-    <Content Include="WP7RootToolsSDK-ReadMe.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="WP7RootToolsSDKNative-0.2.1.0.dll" />
     <Content Include="WPInteropManifest.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
