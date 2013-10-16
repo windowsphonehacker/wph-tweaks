@@ -117,6 +117,12 @@
     <Compile Include="..\wphTweaks\App.xaml.cs">
       <Link>App.xaml.cs</Link>
     </Compile>
+    <Compile Include="..\wphTweaks\Code\Win32ErrorCode.cs">
+      <Link>Code\Win32ErrorCode.cs</Link>
+    </Compile>
+    <Compile Include="..\wphTweaks\Code\WinError.cs">
+      <Link>Code\WinError.cs</Link>
+    </Compile>
     <Compile Include="..\wphTweaks\DisclaimerPage.xaml.cs">
       <Link>DisclaimerPage.xaml.cs</Link>
     </Compile>
@@ -132,8 +138,6 @@
     <Compile Include="..\wphTweaks\ReorderListBoxItem.cs">
       <Link>ReorderListBoxItem.cs</Link>
     </Compile>
-    <Compile Include="Code\Win32ErrorCode.cs" />
-    <Compile Include="Code\WinError.cs" />
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
