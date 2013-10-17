@@ -97,6 +97,9 @@
     <Compile Include="..\wphTweaks\ReorderListBoxItem.cs">
       <Link>ReorderListBoxItem.cs</Link>
     </Compile>
+    <Compile Include="InternationalSettings.xaml.cs">
+      <DependentUpon>InternationalSettings.xaml</DependentUpon>
+    </Compile>
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
@@ -119,6 +122,10 @@
       <Link>Themes\Generic.xaml</Link>
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="InternationalSettings.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="MainPage.xaml">
       <SubType>Designer</SubType>

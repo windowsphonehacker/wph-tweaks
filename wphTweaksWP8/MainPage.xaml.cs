@@ -462,5 +462,10 @@ namespace wphTweaks
             NavigationService.Navigate(new Uri("/Keyboard.xaml", UriKind.Relative));
         }
 
+        private void InternationalSettingsButton_Click(object sender, RoutedEventArgs e)
+        {
+            NavigationService.Navigate(new Uri("/InternationalSettings.xaml", UriKind.Relative));
+        }
+
     }
 }

@@ -52,7 +52,7 @@
                 </StackPanel>
             </DataTemplate>
         </Grid.Resources>
-        
+
         <controls:Pivot x:Name="pivot" 
                 ItemsSource="{Binding MyItems}"
                 SelectedItem="{Binding Path=SelectedItem, Mode=TwoWay}" Margin="0,0,0,0">
@@ -66,26 +66,27 @@
                     <ScrollViewer Height="666" HorizontalAlignment="Left" Margin="6,6,0,0" Name="scrollViewer1" VerticalAlignment="Top" Width="444">
                         <StackPanel Name="controlsPanel" Width="426" Orientation="Vertical" Loaded="controlsPanel_Loaded" />
                     </ScrollViewer>
-                    
+
                 </Grid>
             </controls:PivotItem>
             <controls:PivotItem Header="tools">
                 <ScrollViewer>
-                <StackPanel>
-                    <Button Content="rearrange settings" Height="72" Width="360" Click="rearrangeSettingsBtn_Click" Visibility="Collapsed" />
-                    <Button Content="add google search to ie" Height="72" Width="360" Click="btn_Click" />
-                    <Button Content="choose marketplace" Height="72" Name="btnUnlockMarketplace" Width="360" Click="btnUnlockMarketplace_Click" Visibility="Collapsed" />
-                    <Button Content="customize keyboard" Height="72" Name="btnCustomizeKeyboard" Width="360" Click="btnCustomizeKeyboard_Click" Visibility="Collapsed" />
-                   
-                    <Button Content="disable branded updates" Height="72" Name="btnBrandedUpdates" Width="360" Click="btnBrandedUpdates_Click" Visibility="Collapsed" />
-                    <Button Content="enable branded updates" Height="72" Name="btnEnableBrandedUpdates" Width="360" Click="btnEnableBrandedUpdates_Click" Visibility="Collapsed" />
-                    <Button Content="disable carrier logo" Height="72" Name="btnDisableCarrierLogo" Width="360" Click="button2_Click" Visibility="Collapsed" />
-                    <Button Content="restore carrier logo" Height="72" Name="btnRestoreCarrierLogo" Width="360" Click="btnRestoreCarrierLogo_Click" Visibility="Collapsed" />
+                    <StackPanel>
+                        <Button Content="rearrange settings" Height="72" Width="360" Click="rearrangeSettingsBtn_Click" Visibility="Collapsed" />
+                        <Button Content="add google search to ie" Height="72" Width="360" Click="btn_Click" />
+                        <Button Content="customize regional formatting" Height="72" Name="InternationalSettingsButton" Width="360" Click="InternationalSettingsButton_Click"/>
+                        <Button Content="choose marketplace" Height="72" Name="btnUnlockMarketplace" Width="360" Click="btnUnlockMarketplace_Click" Visibility="Collapsed" />
+                        <Button Content="customize keyboard" Height="72" Name="btnCustomizeKeyboard" Width="360" Click="btnCustomizeKeyboard_Click" Visibility="Collapsed" />
 
-                    <Button Content="change splash" Height="72" Width="360" Click="Button_Click_1" Visibility="Collapsed" />
+                        <Button Content="disable branded updates" Height="72" Name="btnBrandedUpdates" Width="360" Click="btnBrandedUpdates_Click" Visibility="Collapsed" />
+                        <Button Content="enable branded updates" Height="72" Name="btnEnableBrandedUpdates" Width="360" Click="btnEnableBrandedUpdates_Click" Visibility="Collapsed" />
+                        <Button Content="disable carrier logo" Height="72" Name="btnDisableCarrierLogo" Width="360" Click="button2_Click" Visibility="Collapsed" />
+                        <Button Content="restore carrier logo" Height="72" Name="btnRestoreCarrierLogo" Width="360" Click="btnRestoreCarrierLogo_Click" Visibility="Collapsed" />
 
-                    <Button Content="restart phone" Height="72" x:Name="btnRestart" VerticalAlignment="Top" Width="360" Click="btnRestart_Click" FontFamily="Segoe WP Light" BorderBrush="#FFBE3A3A" Margin="48,0" Visibility="Collapsed" />
-                </StackPanel>
+                        <Button Content="change splash" Height="72" Width="360" Click="Button_Click_1" Visibility="Collapsed" />
+
+                        <Button Content="restart phone" Height="72" x:Name="btnRestart" VerticalAlignment="Top" Width="360" Click="btnRestart_Click" FontFamily="Segoe WP Light" BorderBrush="#FFBE3A3A" Margin="48,0" Visibility="Collapsed" />
+                    </StackPanel>
                 </ScrollViewer>
 
             </controls:PivotItem>

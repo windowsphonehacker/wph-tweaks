@@ -1,0 +1,111 @@
+﻿<phone:PhoneApplicationPage
+    x:Class="wphTweaks.InternationalSettings"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
+    xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
+    xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    FontFamily="{StaticResource PhoneFontFamilyNormal}"
+    FontSize="{StaticResource PhoneFontSizeNormal}"
+    Foreground="{StaticResource PhoneForegroundBrush}"
+    SupportedOrientations="Portrait" Orientation="Portrait"
+    mc:Ignorable="d"
+    shell:SystemTray.IsVisible="True">
+
+    <toolkit:TransitionService.NavigationInTransition>
+        <toolkit:NavigationInTransition>
+            <toolkit:NavigationInTransition.Backward>
+                <toolkit:TurnstileTransition Mode="BackwardIn"/>
+            </toolkit:NavigationInTransition.Backward>
+            <toolkit:NavigationInTransition.Forward>
+                <toolkit:TurnstileTransition Mode="ForwardIn"/>
+            </toolkit:NavigationInTransition.Forward>
+        </toolkit:NavigationInTransition>
+    </toolkit:TransitionService.NavigationInTransition>
+    <toolkit:TransitionService.NavigationOutTransition>
+        <toolkit:NavigationOutTransition>
+            <toolkit:NavigationOutTransition.Backward>
+                <toolkit:TurnstileTransition Mode="BackwardOut"/>
+            </toolkit:NavigationOutTransition.Backward>
+            <toolkit:NavigationOutTransition.Forward>
+                <toolkit:TurnstileTransition Mode="ForwardOut"/>
+            </toolkit:NavigationOutTransition.Forward>
+        </toolkit:NavigationOutTransition>
+    </toolkit:TransitionService.NavigationOutTransition>
+
+    <!--LayoutRoot is the root grid where all page content is placed-->
+    <Grid x:Name="LayoutRoot" Background="Transparent">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!--TitlePanel contains the name of the application and page title-->
+        <StackPanel Grid.Row="0" Margin="12,17,0,28">
+            <TextBlock Text="WINDOWSPHONEHACKER" Style="{StaticResource PhoneTextNormalStyle}"/>
+            <TextBlock Text="regional formatting" Margin="9,-7,0,0" Style="{StaticResource PhoneTextTitle1Style}" FontSize="48"/>
+        </StackPanel>
+
+        <!--ContentPanel - place additional content here-->
+        <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,0">
+            <ScrollViewer>
+                <StackPanel>
+                    <Button Name="SaveButton" Click="SaveButton_Click">Save</Button>
+                    <TextBlock>Native Digits</TextBlock>
+                    <TextBox Name="NativeDigitsBox" />
+                    <TextBlock>Positive Sign</TextBlock>
+                    <TextBox Name="PositiveSignBox" />
+                    <TextBlock>List item separator</TextBlock>
+                    <TextBox Name="ListSeparatorBox" />
+                    <TextBlock>Date</TextBlock>
+                    <TextBox Name="DateBox" />
+                    <TextBlock>Time separator</TextBlock>
+                    <TextBox Name="TimeBox" />
+                    <TextBlock>Thousand separator</TextBlock>
+                    <TextBox Name="ThousandBox" />
+                    <TextBlock>Currency formatting</TextBlock>
+                    <TextBox Name="CurrencyFormattingBox" />
+                    <TextBlock>Language code</TextBlock>
+                    <TextBox Name="LanguageBox" />
+                    <TextBlock>Use Leading Zero</TextBlock>
+                    <TextBox Name="LeadingZeroBox" />
+                    <TextBlock>Default short date format</TextBlock>
+                    <TextBox Name="DateFormatBox" />
+                    <TextBlock>Long date format</TextBlock>
+                    <TextBox Name="LongDateBox" />
+                    <TextBlock>Short date format</TextBlock>
+                    <TextBox Name="ShortDateBox" />
+                    <TextBlock>Decimal symbol</TextBlock>
+                    <TextBox Name="DecimalBox" />
+                    <TextBlock>Use leading zero in times</TextBlock>
+                    <TextBox Name="TimeLeadingZeroBox" />
+                    <TextBlock>Country code</TextBlock>
+                    <TextBox Name="CountryBox" />
+                    <TextBlock>Currency symbol</TextBlock>
+                    <TextBox Name="CurrencyBox" />
+                    <TextBlock>Country name</TextBlock>
+                    <TextBox Name="CountryNameBox" />
+                    <TextBlock>12h clock before noon indicator</TextBlock>
+                    <TextBox Name="AmBox" />
+                    <TextBlock>12h clock after noon indicator</TextBlock>
+                    <TextBox Name="PmBox" />
+                    <TextBlock>Digits after decimal in currency</TextBlock>
+                    <TextBox Name="CurrencyDigitsBox" />
+                    <TextBlock>Negative currency format</TextBlock>
+                    <TextBox Name="NegativeCurrencyBox" />
+                    <TextBlock>Use 24h clock</TextBlock>
+                    <TextBox Name="TimeFormatBox" />
+                    <TextBlock>Use U.S. measure vs metric</TextBlock>
+                    <TextBox Name="MeasureBox" />
+                    <TextBlock>Locale ID</TextBlock>
+                    <TextBox Name="LocaleIDBox" />
+                    <TextBlock>Digits after decimal</TextBlock>
+                    <TextBox Name="DigitsBox" />
+                </StackPanel>
+            </ScrollViewer>
+        </Grid>
+    </Grid>
+
+</phone:PhoneApplicationPage>
