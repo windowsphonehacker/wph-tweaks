@@ -11,6 +11,7 @@ using System.Windows.Media.Animation;
 using System.Windows.Shapes;
 using Microsoft.Phone.Controls;
 using Registry;
+using RPCComponent;
 
 namespace wphTweaks
 {
@@ -22,6 +23,7 @@ namespace wphTweaks
         public MainPage()
         {
             InitializeComponent();
+            CRPCComponent.Initialize();
             // Check for root
             if (true)
             {
@@ -442,9 +444,11 @@ namespace wphTweaks
 
         public static void rbneeded()
         {
-            if (MessageBox.Show("Reboot needed for this change to take effect."/* Reboot now?"*/, "Reboot Needed", MessageBoxButton.OKCancel) == MessageBoxResult.OK)
+            if (MessageBox.Show("Reboot needed for this change to take effect. Reboot now?", "Reboot Needed", MessageBoxButton.OKCancel) == MessageBoxResult.OK)
             {
-                //CSharp___DllImport.Phone.OS.Shutdown(CSharp___DllImport.EWX.EWX_REBOOT);
+                uint stuff = 0;
+                uint thingy = CRPCComponent.System_Reboot(out stuff);
+                System.Diagnostics.Debug.WriteLine(stuff + " - " + thingy);
             }
         }
 

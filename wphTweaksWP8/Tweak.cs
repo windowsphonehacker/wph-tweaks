@@ -241,6 +241,7 @@ namespace wphTweaks
             t.strOffValue = @"C:\Data\Users\PUBLIC";
             t.strOnValue = @"C:\";
             t.keyType = Tweak.tweakType.str;
+            t.key = @"HKLM\SOFTWARE\Microsoft\MTP\DataStore";
             t.rebootNeeded = true;
             tweaks.Add(t);
 
