@@ -22,7 +22,6 @@ namespace wphTweaks
         public MainPage()
         {
             InitializeComponent();
-
             // Check for root
             if (true)
             {
@@ -36,7 +35,7 @@ namespace wphTweaks
                         control.Header = tweak.title;
                         if (tweak.description != "")
                             control.Content = tweak.description;
-                        
+
                         control.FontSize = 22;
 
                         //get valuelolo
@@ -56,7 +55,7 @@ namespace wphTweaks
                             System.Diagnostics.Debug.WriteLine(tweak.title + " = " + val);
 #endif
                         }
-                        if (tweak.keyType == Tweak.tweakType.str)
+                        else if (tweak.keyType == Tweak.tweakType.str)
                         {
                             string val = "";
                             try
@@ -77,19 +76,111 @@ namespace wphTweaks
 
                         controlsPanel.Children.Add(control);
                     }
-                    if (tweak.type == Tweak.controlType.selector)
+                    else if (tweak.type == Tweak.controlType.selector)
                     {
                         ListPicker lp = new ListPicker();
                         lp.Header = tweak.title;
                         lp.ItemsSource = tweak.options;
                         lp.SetValue(ListPicker.ItemCountThresholdProperty, 10);
+                        if (tweak.keyType == Tweak.tweakType.dword)
+                        {
+                            uint val = 0;
+                            try
+                            {
+                                NativeRegistry.ReadDWORD(tweak.getHive(), tweak.getKeyName(), tweak.getValueName(), out val);
+                            }
+                            catch
+                            {
+
+                            }
+                            foreach (var opt in tweak.options)
+                            {
+                                if (opt.IntValue == val)
+                                {
+                                    lp.SelectedItem = opt;
+                                    break;
+                                }
+                            }
+#if DEBUG
+                            System.Diagnostics.Debug.WriteLine(tweak.title + " = " + val);
+#endif
+                        }
+                        else if (tweak.keyType == Tweak.tweakType.str)
+                        {
+                            string val = "";
+                            try
+                            {
+                                NativeRegistry.ReadString(tweak.getHive(), tweak.getKeyName(), tweak.getValueName(), out val);
+                            }
+                            catch
+                            {
+                            }
+                            foreach (var opt in tweak.options)
+                            {
+                                if (opt.Value == val)
+                                {
+                                    lp.SelectedItem = opt;
+                                    break;
+                                }
+                            }
+#if DEBUG
+                            System.Diagnostics.Debug.WriteLine(tweak.title + " = " + val);
+#endif
+                        }
                         lp.SelectionChanged += new SelectionChangedEventHandler(lp_SelectionChanged);
                         lp.Tap += new EventHandler<System.Windows.Input.GestureEventArgs>(lp_Tap);
                         controlsPanel.Children.Add(lp);
                     }
-                    if (tweak.type == Tweak.controlType.title)
+                    else if (tweak.type == Tweak.controlType.title)
                     {
                         addCategory(tweak.title);
+                    }
+                    else if (tweak.type == Tweak.controlType.slider)
+                    {
+                        uint val = (uint)tweak.minValue;
+
+                        NativeRegistry.ReadDWORD(tweak.getHive(), tweak.getKeyName(), tweak.getValueName(), out val);
+                        if (val < tweak.minValue)
+                        {
+                            val = (uint)tweak.minValue;
+                        }
+                        else if (val > tweak.maxValue)
+                        {
+                            val = (uint)tweak.maxValue;
+                        }
+
+                        StackPanel sliderStack = new StackPanel();
+                        Grid vertStack = new Grid();
+
+                        TextBlock tb2 = new TextBlock();
+                        tb2.FontSize = (double)Application.Current.Resources["PhoneFontSizeNormal"];
+                        tb2.Padding = new Thickness(10, 0, 0, 0);
+                        tb2.Text = tweak.title;
+                        tb2.FontFamily = (FontFamily)Application.Current.Resources["PhoneFontFamilyNormal"];
+                        tb2.Foreground = (Brush)Application.Current.Resources["PhoneSubtleBrush"];
+                        vertStack.Children.Add(tb2);
+
+                        TextBlock tb = new TextBlock();
+                        tb.FontSize = 18;
+                        tb.Text = val.ToString();
+                        tb.HorizontalAlignment = System.Windows.HorizontalAlignment.Right;
+                        tb.Margin = new Thickness(0, 0, 10, 0);
+                        vertStack.Children.Add(tb);
+                        sliderStack.Children.Add(vertStack);
+
+                        Slider sl = new Slider();
+                        sl.Name = tweak.title;
+                        sl.Minimum = tweak.minValue;
+                        sl.Maximum = tweak.maxValue;
+                        sl.SmallChange = 1;
+                        sl.LargeChange = 2;
+
+                        sl.Value = val;
+
+                        sl.ValueChanged += sl_ValueChanged;
+                        sliderStack.Children.Add(sl);
+                        controlsPanel.Children.Add(sliderStack);
+
                     }
                 }
             }
@@ -97,14 +188,44 @@ namespace wphTweaks
             {
                 LayoutRoot.Visibility = System.Windows.Visibility.Collapsed;
             }
-             
+
+        }
+
+        void sl_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            Slider sl = (Slider)sender;
+            TextBlock tb = (TextBlock)((Grid)((StackPanel)sl.Parent).Children[0]).Children[1];
+            uint oldVal = uint.Parse(tb.Text);
+            uint newVal = (uint)e.NewValue;
+            if (oldVal != newVal)
+            {
+                tb.Text = (newVal).ToString();
+                foreach (Tweak tweak in Tweaks.tweaks)
+                {
+                    if (tweak.title == sl.Name)
+                    {
+                        NativeRegistry.CreateKey(tweak.getHive(), tweak.getKeyName());
+
+                        bool b = NativeRegistry.WriteDWORD(tweak.getHive(), tweak.getKeyName(), tweak.getValueName(), newVal);
+                        if (!b)
+                        {
+                            MessageBox.Show("Failed: " + (CSharp___DllImport.Win32ErrorCode)NativeRegistry.GetError());
+                        }
+                        if (tweak.rebootNeeded)
+                            rbneeded();
+                    }
+
+                }
+            }
+
+
         }
 
         void rearrangeSettingsBtn_Click(object sender, RoutedEventArgs e)
         {
             NavigationService.Navigate(new Uri("/Rearrange.xaml", UriKind.Relative));
         }
-        
+
         void addCategory(string str)
         {
             TextBlock tb2 = new TextBlock();
@@ -119,19 +240,35 @@ namespace wphTweaks
             //http://www.google.com/search?hl=en&q={searchTerms}&meta=
             try
             {
-                //WP7RootToolsSDK.Registry.CreateKey(WP7RootToolsSDK.RegistryHyve.CurrentUser, @"Software\Microsoft\Internet Explorer\SearchProviders\Google");
-            } catch {
-            }
-            try {
-                //WP7RootToolsSDK.Registry.SetStringValue(WP7RootToolsSDK.RegistryHyve.CurrentUser, @"Software\Microsoft\Internet Explorer\SearchProviders\Google", "URL", "http://www.google.com/search?hl=en&q={searchTerms}&meta=");
+                bool b = NativeRegistry.CreateKey(RegistryHive.HKCU, @"Software\Microsoft\Internet Explorer\SearchProviders\Google");
+                if (!b)
+                {
+                    MessageBox.Show("Failed: " + (CSharp___DllImport.Win32ErrorCode)NativeRegistry.GetError());
+
+                }
             }
             catch
             {
             }
+            try
+            {
+                bool b = NativeRegistry.WriteString(RegistryHive.HKCU, @"Software\Microsoft\Internet Explorer\SearchProviders\Google", "URL", "http://www.google.com/search?q={searchTerms}");
+                if (!b)
+                {
+                    MessageBox.Show("Failed: " + (CSharp___DllImport.Win32ErrorCode)NativeRegistry.GetError());
 
+                }
+            }
+            catch
+            {
+            }
+            //TODO: Find a fix
+            uint id = Processes.NativeProcess.CreateProc(@"C:\Programs\InternetExplorer\BrowserSettingsHost.exe");
+            MessageBox.Show(id.ToString());
+            MessageBox.Show("Failed: " + (CSharp___DllImport.Win32ErrorCode)NativeRegistry.GetError());
             //CSharp___DllImport.Phone.AppLauncher.LaunchBuiltInApplication(CSharp___DllImport.Phone.AppLauncher.Apps.Internet7Settings, "_default");
         }
-     
+
         private void PhoneApplicationPage_Loaded(object sender, RoutedEventArgs e)
         {
             //Disclaimer
@@ -175,17 +312,30 @@ namespace wphTweaks
                         if (tweak.keyType == Tweak.tweakType.str)
                         {
                             string val = ((SelectorTweak)ctrl.SelectedItem).Value;
-                            NativeRegistry.WriteString(tweak.getHive(), tweak.getKeyName(), tweak.getValueName(), val);
+                            bool b = NativeRegistry.WriteString(tweak.getHive(), tweak.getKeyName(), tweak.getValueName(), val);
+                            if (!b)
+                            {
+                                MessageBox.Show("Failed: " + (CSharp___DllImport.Win32ErrorCode)NativeRegistry.GetError());
+
+                            }
                             System.Diagnostics.Debug.WriteLine(val);
                         }
                         else
                         {
-                            try {
+                            try
+                            {
                                 NativeRegistry.CreateKey(tweak.getHive(), tweak.getKeyName());
-                            } catch {
+                            }
+                            catch
+                            {
                             }
                             int val = ((SelectorTweak)ctrl.SelectedItem).IntValue;
-                            NativeRegistry.WriteDWORD(tweak.getHive(), tweak.getKeyName(), tweak.getValueName(), (uint)val);
+                            bool b = NativeRegistry.WriteDWORD(tweak.getHive(), tweak.getKeyName(), tweak.getValueName(), (uint)val);
+                            if (!b)
+                            {
+                                MessageBox.Show("Failed: " + (CSharp___DllImport.Win32ErrorCode)NativeRegistry.GetError());
+
+                            }
                             if (tweak.rebootNeeded)
                                 rbneeded();
                         }
@@ -218,13 +368,18 @@ namespace wphTweaks
                             if (!b)
                             {
                                 MessageBox.Show("Failed: " + (CSharp___DllImport.Win32ErrorCode)NativeRegistry.GetError());
-                                
+
                             }
                         }
                         else
                         {
                             string val = (ctrl.IsChecked.Value ? tweak.strOnValue : tweak.strOffValue);
-                            NativeRegistry.WriteString(tweak.getHive(), tweak.getKeyName(), tweak.getValueName(), val);
+                            bool b = NativeRegistry.WriteString(tweak.getHive(), tweak.getKeyName(), tweak.getValueName(), val);
+                            if (!b)
+                            {
+                                MessageBox.Show("Failed: " + (CSharp___DllImport.Win32ErrorCode)NativeRegistry.GetError());
+
+                            }
                         }
                         if (tweak.rebootNeeded)
                         {
@@ -266,13 +421,13 @@ namespace wphTweaks
         {
             var old = "";
             String[] obvals = { "MOName", "OemName", "MobileOperator" };
-           
+
             foreach (String val in obvals)
             {
                 //old = WP7RootToolsSDK.Registry.GetStringValue(WP7RootToolsSDK.RegistryHyve.LocalMachine, @"System\Platform\DeviceTargetingInfo", val);
                 //WP7RootToolsSDK.Registry.SetStringValue(WP7RootToolsSDK.RegistryHyve.LocalMachine, @"System\Platform\DeviceTargetingInfo", val, old.Replace("_blocked", ""));
             }
-            
+
         }
 
         private void button2_Click(object sender, RoutedEventArgs e)
@@ -287,7 +442,7 @@ namespace wphTweaks
 
         public static void rbneeded()
         {
-            if (MessageBox.Show("Restarted needed for this change to take effect. Restart now?", "Restart Needed", MessageBoxButton.OKCancel) == MessageBoxResult.OK)
+            if (MessageBox.Show("Reboot needed for this change to take effect."/* Reboot now?"*/, "Reboot Needed", MessageBoxButton.OKCancel) == MessageBoxResult.OK)
             {
                 //CSharp___DllImport.Phone.OS.Shutdown(CSharp___DllImport.EWX.EWX_REBOOT);
             }

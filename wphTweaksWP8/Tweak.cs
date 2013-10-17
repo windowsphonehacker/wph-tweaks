@@ -128,6 +128,13 @@ namespace wphTweaks
             t.key = @"HKLM\SOFTWARE\Microsoft\Settings\Lock\DisableNever";
             tweaks.Add(t);
 
+            t = new Tweak();
+            t.title = "Save maps to SD card";
+            t.onValue = 1;
+            t.offValue = 0;
+            t.key = @"HKLM\System\Maps\StorageUseExternalStorage";
+            tweaks.Add(t);
+
             //t = new Tweak();
             //t.title = "Soft shutter button";
             //t.key = @"HKLM\SOFTWARE\Microsoft\Camera\Settings\SoftShutterButton";
@@ -191,7 +198,7 @@ namespace wphTweaks
             //tweaks.Add(t);
 
             t = new Tweak();
-            t.title = "Volume Control (reboot required)";
+            t.title = "Volume Control";
             t.key = @"HKLM\SOFTWARE\Microsoft\Settings\Volume\MaxSystemUIVolume";
             t.type = Tweak.controlType.selector;
             t.options = new List<SelectorTweak>();
@@ -201,6 +208,40 @@ namespace wphTweaks
             t.options.Add(new SelectorTweak() { Title = "0 - 30 (Default)", IntValue = 30 });
             t.options.Add(new SelectorTweak() { Title = "0 - 40", IntValue = 40 });
             t.options.Add(new SelectorTweak() { Title = "0 - 50", IntValue = 50 });
+            t.rebootNeeded = true;
+            tweaks.Add(t);
+
+            t = new Tweak();
+            t.title = "Limit volume on reboot";
+            t.key = @"HKLM\SOFTWARE\OEM\VolumeLimit\EnableVolumeLimit";
+            t.type = Tweak.controlType.toggle;
+            t.onValue = 1;
+            t.offValue = 0;
+            tweaks.Add(t);
+
+            t = new Tweak();
+            t.title = "Volume Limit on reboot";
+            t.key = @"HKLM\SOFTWARE\OEM\VolumeLimit\VolumeLimit";
+            t.type = Tweak.controlType.slider;
+            t.minValue = 0;
+            t.maxValue = 30;
+            t.defaultInt = 19;
+            tweaks.Add(t);
+
+            t = new Tweak();
+            t.title = "Capacitive button vibration";
+            t.onValue = 1;
+            t.offValue = 0;
+            t.key = @"HKLM\System\Touch\Buttons\Vibrate";
+            t.rebootNeeded = true;
+            tweaks.Add(t);
+
+            t = new Tweak();
+            t.title = "Full USB file system access";
+            t.strOffValue = @"C:\Data\Users\PUBLIC";
+            t.strOnValue = @"C:\";
+            t.keyType = Tweak.tweakType.str;
+            t.rebootNeeded = true;
             tweaks.Add(t);
 
 
