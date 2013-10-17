@@ -1,0 +1,2 @@
+0
+This file is to save the build number of the installed app so it can track updates

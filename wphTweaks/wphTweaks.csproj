@@ -69,6 +69,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\wphTweaksWP8\UpdateChecker.cs">
+      <Link>UpdateChecker.cs</Link>
+    </Compile>
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
@@ -184,6 +187,10 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="..\buildnum.txt">
+      <Link>buildnum.txt</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="..\Libs\DllImportMango.dll">
       <Link>DllImportMango.dll</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

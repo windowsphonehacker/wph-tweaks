@@ -287,7 +287,7 @@ namespace wphTweaks
             }
 
             LayoutRoot.Visibility = System.Windows.Visibility.Visible;
-
+            UpdateChecker.CheckUpdatesAsync();
         }
 
         void picker_Tap(object sender, System.Windows.Input.GestureEventArgs e)
