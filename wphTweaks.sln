@@ -1,6 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
+# Visual Studio 2013
+VisualStudioVersion = 12.0.21005.1
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "wphTweaks", "wphTweaks\wphTweaks.csproj", "{A590D980-68B0-4CB7-8276-5745AF3E3199}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "wphTweaksWP8", "wphTweaksWP8\wphTweaksWP8.csproj", "{BB56B9E6-2E31-4A62-81EE-170591DF84B1}"
@@ -16,10 +18,8 @@ Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Debug|ARM = Debug|ARM
-		Debug|x86 = Debug|x86
 		Release|Any CPU = Release|Any CPU
 		Release|ARM = Release|ARM
-		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{A590D980-68B0-4CB7-8276-5745AF3E3199}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -28,30 +28,24 @@ Global
 		{A590D980-68B0-4CB7-8276-5745AF3E3199}.Debug|ARM.ActiveCfg = Debug|Any CPU
 		{A590D980-68B0-4CB7-8276-5745AF3E3199}.Debug|ARM.Build.0 = Debug|Any CPU
 		{A590D980-68B0-4CB7-8276-5745AF3E3199}.Debug|ARM.Deploy.0 = Debug|Any CPU
-		{A590D980-68B0-4CB7-8276-5745AF3E3199}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{A590D980-68B0-4CB7-8276-5745AF3E3199}.Debug|x86.Build.0 = Debug|Any CPU
-		{A590D980-68B0-4CB7-8276-5745AF3E3199}.Debug|x86.Deploy.0 = Debug|Any CPU
 		{A590D980-68B0-4CB7-8276-5745AF3E3199}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A590D980-68B0-4CB7-8276-5745AF3E3199}.Release|Any CPU.Build.0 = Release|Any CPU
 		{A590D980-68B0-4CB7-8276-5745AF3E3199}.Release|Any CPU.Deploy.0 = Release|Any CPU
 		{A590D980-68B0-4CB7-8276-5745AF3E3199}.Release|ARM.ActiveCfg = Release|Any CPU
 		{A590D980-68B0-4CB7-8276-5745AF3E3199}.Release|ARM.Build.0 = Release|Any CPU
 		{A590D980-68B0-4CB7-8276-5745AF3E3199}.Release|ARM.Deploy.0 = Release|Any CPU
-		{A590D980-68B0-4CB7-8276-5745AF3E3199}.Release|x86.ActiveCfg = Release|Any CPU
 		{BB56B9E6-2E31-4A62-81EE-170591DF84B1}.Debug|Any CPU.ActiveCfg = Debug|ARM
 		{BB56B9E6-2E31-4A62-81EE-170591DF84B1}.Debug|Any CPU.Build.0 = Debug|ARM
 		{BB56B9E6-2E31-4A62-81EE-170591DF84B1}.Debug|Any CPU.Deploy.0 = Debug|ARM
 		{BB56B9E6-2E31-4A62-81EE-170591DF84B1}.Debug|ARM.ActiveCfg = Debug|ARM
 		{BB56B9E6-2E31-4A62-81EE-170591DF84B1}.Debug|ARM.Build.0 = Debug|ARM
 		{BB56B9E6-2E31-4A62-81EE-170591DF84B1}.Debug|ARM.Deploy.0 = Debug|ARM
-		{BB56B9E6-2E31-4A62-81EE-170591DF84B1}.Debug|x86.ActiveCfg = Debug|ARM
 		{BB56B9E6-2E31-4A62-81EE-170591DF84B1}.Release|Any CPU.ActiveCfg = Release|ARM
 		{BB56B9E6-2E31-4A62-81EE-170591DF84B1}.Release|Any CPU.Build.0 = Release|ARM
 		{BB56B9E6-2E31-4A62-81EE-170591DF84B1}.Release|Any CPU.Deploy.0 = Release|ARM
 		{BB56B9E6-2E31-4A62-81EE-170591DF84B1}.Release|ARM.ActiveCfg = Release|ARM
 		{BB56B9E6-2E31-4A62-81EE-170591DF84B1}.Release|ARM.Build.0 = Release|ARM
 		{BB56B9E6-2E31-4A62-81EE-170591DF84B1}.Release|ARM.Deploy.0 = Release|ARM
-		{BB56B9E6-2E31-4A62-81EE-170591DF84B1}.Release|x86.ActiveCfg = Release|ARM
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

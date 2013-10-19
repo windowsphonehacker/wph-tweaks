@@ -467,5 +467,10 @@ namespace wphTweaks
             NavigationService.Navigate(new Uri("/InternationalSettings.xaml", UriKind.Relative));
         }
 
+        private void SoundEditorButton_Click(object sender, RoutedEventArgs e)
+        {
+            NavigationService.Navigate(new Uri("/SoundEditor.xaml", UriKind.Relative));
+        }
+
     }
 }

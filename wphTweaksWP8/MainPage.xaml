@@ -75,6 +75,7 @@
                         <Button Content="rearrange settings" Height="72" Width="360" Click="rearrangeSettingsBtn_Click" Visibility="Collapsed" />
                         <Button Content="add google search to ie" Height="72" Width="360" Click="btn_Click" />
                         <Button Content="customize regional formatting" Height="72" Name="InternationalSettingsButton" Width="360" Click="InternationalSettingsButton_Click"/>
+                        <Button Content="customize notification sounds" Height="72" Name="SoundEditorButton" Width="360" Click="SoundEditorButton_Click"/>
                         <Button Content="choose marketplace" Height="72" Name="btnUnlockMarketplace" Width="360" Click="btnUnlockMarketplace_Click" Visibility="Collapsed" />
                         <Button Content="customize keyboard" Height="72" Name="btnCustomizeKeyboard" Width="360" Click="btnCustomizeKeyboard_Click" Visibility="Collapsed" />
 
