@@ -46,10 +46,10 @@ namespace wphTweaks
             {
                 string path = HomebrewHelperWP.Registry.ReadString(RegistryHive.HKLM, @"SOFTWARE\Microsoft\EventSounds\Sounds\" + ((Button)sender).Tag, "Sound");
                 CustomMessageBox custMsgBox = new CustomMessageBox();
-                custMsgBox.Title = "Edit sound";
+                custMsgBox.Title = "Change notification sound";
                 custMsgBox.Tag = ((Button)sender).Tag;
-                custMsgBox.Caption = "Editing sound";
-                custMsgBox.Message = "Edit the sound";
+                custMsgBox.Caption = "Editing sound " + ((Button)sender).Tag;
+                custMsgBox.Message = "Please select a new sound from the list below";
                 custMsgBox.Content = new RingtoneChooser() { SelectedRingtone = path };
                 custMsgBox.LeftButtonContent = "cancel";
                 custMsgBox.RightButtonContent = "save";
