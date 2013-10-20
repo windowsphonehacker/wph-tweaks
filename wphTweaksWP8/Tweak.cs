@@ -146,7 +146,7 @@ namespace wphTweaks
             t = new Tweak();
             t.title = "Big screen for start screen (GDR3)";
             t.onValue = 2;
-            t.offValue = 1;
+            t.offValue = 6;
             t.key = @"HKLM\Software\Microsoft\Shell\OEM\Start\ScreenSize";
             t.rebootNeeded = true;
             tweaks.Add(t);
