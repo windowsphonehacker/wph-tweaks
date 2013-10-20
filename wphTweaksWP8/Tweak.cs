@@ -129,6 +129,14 @@ namespace wphTweaks
             tweaks.Add(t);
 
             t = new Tweak();
+            t.title = "Allow disabling camera shutter sound";
+            t.onValue = 0;
+            t.offValue = 1;
+            t.key = @"HKLM\SOFTWARE\Microsoft\EventSounds\Sounds\Camera\Locked";
+            tweaks.Add(t);
+            
+
+            t = new Tweak();
             t.title = "Save maps to SD card";
             t.onValue = 1;
             t.offValue = 0;

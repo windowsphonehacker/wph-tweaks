@@ -25,7 +25,7 @@ namespace HomebrewHelperWP
             if (!NativeRegistry.ReadString((global::Registry.RegistryHive)hive, path, value, out ret))
             {
                 uint error = NativeRegistry.GetError();
-                ret = SammyReadString(hive, path, value, out error);
+                //ret = SammyReadString(hive, path, value, out error);
                 LastError = error;
                 //if (error != 0)
                 //{

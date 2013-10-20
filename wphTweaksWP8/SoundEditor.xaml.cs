@@ -7,8 +7,8 @@ using System.Windows.Controls;
 using System.Windows.Navigation;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
-using FileSystem;
 using HomebrewHelperWP;
+using HomebrewHelperWP.Filesystem;
 
 namespace wphTweaks
 {
@@ -27,7 +27,14 @@ namespace wphTweaks
                 foreach (string sound in sounds)
                 {
                     var soundButton = new Button() { Content = sound, Tag = sound };
-                    soundButton.Click += soundButton_Click;
+                    if (Registry.ReadString(RegistryHive.HKLM, @"SOFTWARE\Microsoft\EventSounds\Sounds\" + sound, "Sound").Length > 3)
+                    {
+                        soundButton.Click += soundButton_Click;
+                    }
+                    else
+                    {
+                        soundButton.IsEnabled = false;
+                    }
                     SoundStack.Children.Add(soundButton);
                 }
             }
@@ -43,9 +50,10 @@ namespace wphTweaks
                 custMsgBox.Tag = ((Button)sender).Tag;
                 custMsgBox.Caption = "Editing sound";
                 custMsgBox.Message = "Edit the sound";
-                custMsgBox.Content = new TextBox() { Text = path };
+                custMsgBox.Content = new RingtoneChooser() { SelectedRingtone = path };
                 custMsgBox.LeftButtonContent = "cancel";
                 custMsgBox.RightButtonContent = "save";
+                custMsgBox.IsFullScreen = true;
                 custMsgBox.Dismissed += custMsgBox_Dismissed;
                 custMsgBox.Show();
             }
@@ -62,7 +70,7 @@ namespace wphTweaks
             {
                 try
                 {
-                    HomebrewHelperWP.Registry.WriteString(RegistryHive.HKLM, @"SOFTWARE\Microsoft\EventSounds\Sounds\" + ((CustomMessageBox)sender).Tag, "Sound", ((TextBox)((CustomMessageBox)sender).Content).Text);
+                    HomebrewHelperWP.Registry.WriteString(RegistryHive.HKLM, @"SOFTWARE\Microsoft\EventSounds\Sounds\" + ((CustomMessageBox)sender).Tag, "Sound", ((RingtoneChooser)((CustomMessageBox)sender).Content).SelectedRingtone);
                 }
                 catch (Exception ex)
                 {
