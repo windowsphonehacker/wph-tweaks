@@ -440,5 +440,10 @@ namespace wphTweaks
             NavigationService.Navigate(new Uri("/SoundEditor.xaml", UriKind.Relative));
         }
 
+        private void DataConnectionStringsButton_Click(object sender, RoutedEventArgs e)
+        {
+            NavigationService.Navigate(new Uri("/DataConnectionStringsEditor.xaml", UriKind.Relative));
+        }
+
     }
 }
