@@ -77,6 +77,7 @@ namespace HomebrewHelperWP
         {
             if (!NativeRegistry.WriteDWORD((global::Registry.RegistryHive)hive, path, value, data))
             {
+                LastError = NativeRegistry.GetError();
                 uint retval;
                 LastError = SammyWriteDWORD(hive, path, value, data, out retval);
                 //if (error != 0)

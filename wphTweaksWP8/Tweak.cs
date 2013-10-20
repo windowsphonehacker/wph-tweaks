@@ -21,7 +21,7 @@ namespace wphTweaks
         public string title;
 
         public string key;
-        
+
         public tweakType keyType;
 
         public string defaultString;
@@ -47,7 +47,7 @@ namespace wphTweaks
 
         public RegistryHive getHive()
         {
-            string firstFour = key.Substring(0,4);
+            string firstFour = key.Substring(0, 4);
             switch (firstFour)
             {
                 case "HKLM":
@@ -66,14 +66,14 @@ namespace wphTweaks
             return key.Substring(5, key.LastIndexOf("\\") - 5);
         }
     }
-    
+
     public class Tweaks
     {
         public static Collection<Tweak> tweaks;
         static Tweaks()
         {
             tweaks = new Collection<Tweak>();
-           
+
             Tweak t;
 
             //t = new Tweak();
@@ -142,8 +142,14 @@ namespace wphTweaks
             t.rebootNeeded = true;
             t.key = @"HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Control Panel\Theme\LargeScreen";
             tweaks.Add(t);
-            
-            
+
+            t = new Tweak();
+            t.title = "Big screen for start screen (GDR3)";
+            t.onValue = 2;
+            t.offValue = 1;
+            t.key = @"HKLM\Software\Microsoft\Shell\OEM\Start\ScreenSize";
+            t.rebootNeeded = true;
+            tweaks.Add(t);
 
             t = new Tweak();
             t.title = "Save maps to SD card";
@@ -157,13 +163,13 @@ namespace wphTweaks
             //t.key = @"HKLM\SOFTWARE\Microsoft\Camera\Settings\SoftShutterButton";
             //tweaks.Add(t);
 
-            //t = new Tweak();
-            //t.title = "Disable Start Menu Letters";
-            //t.onValue = 500;
-            //t.offValue = 45;
-            //t.key = @"HKCU\Software\Microsoft\Start\GroupingThreshold";
-            //t.rebootNeeded = true;
-            //tweaks.Add(t);
+            t = new Tweak();
+            t.title = "Disable Start Menu Letters";
+            t.onValue = 500;
+            t.offValue = 45;
+            t.key = @"HKLM\Software\Microsoft\Shell\Start\GroupingThreshold";
+            t.rebootNeeded = true;
+            tweaks.Add(t);
 
             //t = new Tweak();
             //t.title = "Max Task Switcher Apps";
@@ -312,7 +318,7 @@ namespace wphTweaks
             //t.strOffValue = "3G";
             //t.rebootNeeded = true;
             //tweaks.Add(t);
-           
+
         }
     }
     public class SelectorTweak
@@ -324,6 +330,6 @@ namespace wphTweaks
         {
             return Title;
         }
-         
+
     }
 }
