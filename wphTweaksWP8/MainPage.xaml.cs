@@ -10,8 +10,8 @@ using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Shapes;
 using Microsoft.Phone.Controls;
-using Registry;
 using RPCComponent;
+using HomebrewHelperWP;
 
 namespace wphTweaks
 {
@@ -43,15 +43,7 @@ namespace wphTweaks
                         //get valuelolo
                         if (tweak.keyType == Tweak.tweakType.dword)
                         {
-                            uint val = 0;
-                            try
-                            {
-                                NativeRegistry.ReadDWORD(tweak.getHive(), tweak.getKeyName(), tweak.getValueName(), out val);
-                            }
-                            catch
-                            {
-
-                            }
+                            uint val = Registry.ReadDWORD(tweak.getHive(), tweak.getKeyName(), tweak.getValueName());
                             control.IsChecked = (val == tweak.onValue);
 #if DEBUG
                             System.Diagnostics.Debug.WriteLine(tweak.title + " = " + val);
@@ -59,14 +51,7 @@ namespace wphTweaks
                         }
                         else if (tweak.keyType == Tweak.tweakType.str)
                         {
-                            string val = "";
-                            try
-                            {
-                                NativeRegistry.ReadString(tweak.getHive(), tweak.getKeyName(), tweak.getValueName(), out val);
-                            }
-                            catch
-                            {
-                            }
+                            string val = Registry.ReadString(tweak.getHive(), tweak.getKeyName(), tweak.getValueName());
                             control.IsChecked = (val == tweak.strOnValue);
 #if DEBUG
                             System.Diagnostics.Debug.WriteLine(tweak.title + " = " + val);
@@ -86,15 +71,7 @@ namespace wphTweaks
                         lp.SetValue(ListPicker.ItemCountThresholdProperty, 10);
                         if (tweak.keyType == Tweak.tweakType.dword)
                         {
-                            uint val = 0;
-                            try
-                            {
-                                NativeRegistry.ReadDWORD(tweak.getHive(), tweak.getKeyName(), tweak.getValueName(), out val);
-                            }
-                            catch
-                            {
-
-                            }
+                            uint val = Registry.ReadDWORD(tweak.getHive(), tweak.getKeyName(), tweak.getValueName());
                             foreach (var opt in tweak.options)
                             {
                                 if (opt.IntValue == val)
@@ -109,14 +86,7 @@ namespace wphTweaks
                         }
                         else if (tweak.keyType == Tweak.tweakType.str)
                         {
-                            string val = "";
-                            try
-                            {
-                                NativeRegistry.ReadString(tweak.getHive(), tweak.getKeyName(), tweak.getValueName(), out val);
-                            }
-                            catch
-                            {
-                            }
+                            string val = Registry.ReadString(tweak.getHive(), tweak.getKeyName(), tweak.getValueName());
                             foreach (var opt in tweak.options)
                             {
                                 if (opt.Value == val)
@@ -139,9 +109,7 @@ namespace wphTweaks
                     }
                     else if (tweak.type == Tweak.controlType.slider)
                     {
-                        uint val = (uint)tweak.minValue;
-
-                        NativeRegistry.ReadDWORD(tweak.getHive(), tweak.getKeyName(), tweak.getValueName(), out val);
+                        uint val = Registry.ReadDWORD(tweak.getHive(), tweak.getKeyName(), tweak.getValueName());
                         if (val < tweak.minValue)
                         {
                             val = (uint)tweak.minValue;
@@ -206,12 +174,12 @@ namespace wphTweaks
                 {
                     if (tweak.title == sl.Name)
                     {
-                        NativeRegistry.CreateKey(tweak.getHive(), tweak.getKeyName());
+                        Registry.CreateKey(tweak.getHive(), tweak.getKeyName());
 
-                        bool b = NativeRegistry.WriteDWORD(tweak.getHive(), tweak.getKeyName(), tweak.getValueName(), newVal);
-                        if (!b)
+                        Registry.WriteDWORD(tweak.getHive(), tweak.getKeyName(), tweak.getValueName(), newVal);
+                        if (Registry.LastError != 0)
                         {
-                            MessageBox.Show("Failed: " + (CSharp___DllImport.Win32ErrorCode)NativeRegistry.GetError());
+                            MessageBox.Show("Failed: " + (CSharp___DllImport.Win32ErrorCode)Registry.LastError);
                         }
                         if (tweak.rebootNeeded)
                             rbneeded();
@@ -242,10 +210,10 @@ namespace wphTweaks
             //http://www.google.com/search?hl=en&q={searchTerms}&meta=
             try
             {
-                bool b = NativeRegistry.CreateKey(RegistryHive.HKCU, @"Software\Microsoft\Internet Explorer\SearchProviders\Google");
-                if (!b)
+                Registry.CreateKey(RegistryHive.HKCU, @"Software\Microsoft\Internet Explorer\SearchProviders\Google");
+                if (Registry.LastError != 0)
                 {
-                    MessageBox.Show("Failed: " + (CSharp___DllImport.Win32ErrorCode)NativeRegistry.GetError());
+                    MessageBox.Show("Failed: " + (CSharp___DllImport.Win32ErrorCode)Registry.LastError);
 
                 }
             }
@@ -254,10 +222,10 @@ namespace wphTweaks
             }
             try
             {
-                bool b = NativeRegistry.WriteString(RegistryHive.HKCU, @"Software\Microsoft\Internet Explorer\SearchProviders\Google", "URL", "http://www.google.com/search?q={searchTerms}");
-                if (!b)
+                Registry.WriteString(RegistryHive.HKCU, @"Software\Microsoft\Internet Explorer\SearchProviders\Google", "URL", "http://www.google.com/search?q={searchTerms}");
+                if (Registry.LastError != 0)
                 {
-                    MessageBox.Show("Failed: " + (CSharp___DllImport.Win32ErrorCode)NativeRegistry.GetError());
+                    MessageBox.Show("Failed: " + (CSharp___DllImport.Win32ErrorCode)Registry.LastError);
 
                 }
             }
@@ -267,7 +235,7 @@ namespace wphTweaks
             //TODO: Find a fix
             uint id = Processes.NativeProcess.CreateProc(@"C:\Programs\InternetExplorer\BrowserSettingsHost.exe");
             MessageBox.Show(id.ToString());
-            MessageBox.Show("Failed: " + (CSharp___DllImport.Win32ErrorCode)NativeRegistry.GetError());
+            MessageBox.Show("Failed: " + (CSharp___DllImport.Win32ErrorCode)Registry.LastError);
             //CSharp___DllImport.Phone.AppLauncher.LaunchBuiltInApplication(CSharp___DllImport.Phone.AppLauncher.Apps.Internet7Settings, "_default");
         }
 
@@ -314,10 +282,10 @@ namespace wphTweaks
                         if (tweak.keyType == Tweak.tweakType.str)
                         {
                             string val = ((SelectorTweak)ctrl.SelectedItem).Value;
-                            bool b = NativeRegistry.WriteString(tweak.getHive(), tweak.getKeyName(), tweak.getValueName(), val);
-                            if (!b)
+                            Registry.WriteString(tweak.getHive(), tweak.getKeyName(), tweak.getValueName(), val);
+                            if (Registry.LastError != 0)
                             {
-                                MessageBox.Show("Failed: " + (CSharp___DllImport.Win32ErrorCode)NativeRegistry.GetError());
+                                MessageBox.Show("Failed: " + (CSharp___DllImport.Win32ErrorCode)Registry.LastError);
 
                             }
                             System.Diagnostics.Debug.WriteLine(val);
@@ -326,16 +294,16 @@ namespace wphTweaks
                         {
                             try
                             {
-                                NativeRegistry.CreateKey(tweak.getHive(), tweak.getKeyName());
+                                Registry.CreateKey(tweak.getHive(), tweak.getKeyName());
                             }
                             catch
                             {
                             }
                             int val = ((SelectorTweak)ctrl.SelectedItem).IntValue;
-                            bool b = NativeRegistry.WriteDWORD(tweak.getHive(), tweak.getKeyName(), tweak.getValueName(), (uint)val);
-                            if (!b)
+                            Registry.WriteDWORD(tweak.getHive(), tweak.getKeyName(), tweak.getValueName(), (uint)val);
+                            if (Registry.LastError != 0)
                             {
-                                MessageBox.Show("Failed: " + (CSharp___DllImport.Win32ErrorCode)NativeRegistry.GetError());
+                                MessageBox.Show("Failed: " + (CSharp___DllImport.Win32ErrorCode)Registry.LastError);
 
                             }
                             if (tweak.rebootNeeded)
@@ -360,26 +328,26 @@ namespace wphTweaks
                         {
                             try
                             {
-                                NativeRegistry.CreateKey(tweak.getHive(), tweak.getKeyName());
+                                Registry.CreateKey(tweak.getHive(), tweak.getKeyName());
                             }
                             catch
                             {
                             }
                             int val = (ctrl.IsChecked.Value ? tweak.onValue : tweak.offValue);
-                            bool b = NativeRegistry.WriteDWORD(tweak.getHive(), tweak.getKeyName(), tweak.getValueName(), (uint)val);
-                            if (!b)
+                            Registry.WriteDWORD(tweak.getHive(), tweak.getKeyName(), tweak.getValueName(), (uint)val);
+                            if (Registry.LastError != 0)
                             {
-                                MessageBox.Show("Failed: " + (CSharp___DllImport.Win32ErrorCode)NativeRegistry.GetError());
+                                MessageBox.Show("Failed: " + (CSharp___DllImport.Win32ErrorCode)Registry.LastError);
 
                             }
                         }
                         else
                         {
                             string val = (ctrl.IsChecked.Value ? tweak.strOnValue : tweak.strOffValue);
-                            bool b = NativeRegistry.WriteString(tweak.getHive(), tweak.getKeyName(), tweak.getValueName(), val);
-                            if (!b)
+                            Registry.WriteString(tweak.getHive(), tweak.getKeyName(), tweak.getValueName(), val);
+                            if (Registry.LastError != 0)
                             {
-                                MessageBox.Show("Failed: " + (CSharp___DllImport.Win32ErrorCode)NativeRegistry.GetError());
+                                MessageBox.Show("Failed: " + (CSharp___DllImport.Win32ErrorCode)Registry.LastError);
 
                             }
                         }

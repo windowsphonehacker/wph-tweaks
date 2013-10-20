@@ -9,7 +9,6 @@ using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
 using FileSystem;
 using HomebrewHelperWP;
-using Registry;
 
 namespace wphTweaks
 {
@@ -18,11 +17,10 @@ namespace wphTweaks
         public SoundEditor()
         {
             InitializeComponent();
-            string[] sounds;
-            bool b = NativeRegistry.GetSubKeyNames(RegistryHive.HKLM, @"SOFTWARE\Microsoft\EventSounds\Sounds", out sounds);
-            if (!b)
+            string[] sounds = Registry.GetSubKeyNames(RegistryHive.HKLM, @"SOFTWARE\Microsoft\EventSounds\Sounds");
+            if (sounds == null)
             {
-                MessageBox.Show("Failed: " + (CSharp___DllImport.Win32ErrorCode)NativeRegistry.GetError());
+                MessageBox.Show("Failed: " + (CSharp___DllImport.Win32ErrorCode)Registry.LastError);
             }
             else
             {

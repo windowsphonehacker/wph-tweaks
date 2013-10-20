@@ -7,7 +7,7 @@ using System.Windows.Controls;
 using System.Windows.Navigation;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
-using Registry;
+using HomebrewHelperWP;
 
 namespace wphTweaks
 {
@@ -45,23 +45,21 @@ namespace wphTweaks
 
         string GetStr(string value)
         {
-            string ret = "";
-            bool b = NativeRegistry.ReadString(RegistryHive.HKCU, @"Control Panel\International", value, out ret);
-            if (!b)
+            string ret = Registry.ReadString(RegistryHive.HKCU, @"Control Panel\International", value);
+            if (Registry.HasError)
             {
-                MessageBox.Show("Failed: " + (CSharp___DllImport.Win32ErrorCode)NativeRegistry.GetError());
+                MessageBox.Show("Failed: " + (CSharp___DllImport.Win32ErrorCode)Registry.LastError);
             }
             return ret;
         }
 
-        bool SetStr(string value, string data)
+        void SetStr(string value, string data)
         {
-            bool b = NativeRegistry.WriteString(RegistryHive.HKCU, @"Control Panel\International", value, data);
-            if (!b)
+            Registry.WriteString(RegistryHive.HKCU, @"Control Panel\International", value, data);
+            if (Registry.HasError)
             {
-                MessageBox.Show("Failed: " + (CSharp___DllImport.Win32ErrorCode)NativeRegistry.GetError());
+                MessageBox.Show("Failed: " + (CSharp___DllImport.Win32ErrorCode)Registry.LastError);
             }
-            return b;
         }
 
         void SaveChanges()

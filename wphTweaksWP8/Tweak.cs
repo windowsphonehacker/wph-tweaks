@@ -10,7 +10,7 @@ using System.Windows.Media.Animation;
 using System.Windows.Shapes;
 using System.Collections.ObjectModel;
 using System.Collections.Generic;
-using Registry;
+using HomebrewHelperWP;
 
 namespace wphTweaks
 {
@@ -45,7 +45,7 @@ namespace wphTweaks
         //selector
         public List<SelectorTweak> options;
 
-        public Registry.RegistryHive getHive()
+        public RegistryHive getHive()
         {
             string firstFour = key.Substring(0,4);
             switch (firstFour)
