@@ -134,6 +134,15 @@ namespace wphTweaks
             t.offValue = 1;
             t.key = @"HKLM\SOFTWARE\Microsoft\EventSounds\Sounds\Camera\Locked";
             tweaks.Add(t);
+
+            t = new Tweak();
+            t.title = "Large screen mode (GDR3)";
+            t.onValue = 1;
+            t.offValue = 0;
+            t.rebootNeeded = true;
+            t.key = @"HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Control Panel\Theme\LargeScreen";
+            tweaks.Add(t);
+            
             
 
             t = new Tweak();
