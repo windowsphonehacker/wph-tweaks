@@ -7,8 +7,9 @@ using System.Windows.Controls;
 using System.Windows.Navigation;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
-using Registry;
 using FileSystem;
+using HomebrewHelperWP;
+using Registry;
 
 namespace wphTweaks
 {
@@ -36,18 +37,24 @@ namespace wphTweaks
 
         void soundButton_Click(object sender, RoutedEventArgs e)
         {
-            string path = "";
-            NativeRegistry.ReadString(RegistryHive.HKLM, @"SOFTWARE\Microsoft\EventSounds\Sounds\" + ((Button)sender).Tag, "Sound", out path);
-            CustomMessageBox custMsgBox = new CustomMessageBox();
-            custMsgBox.Title = "Edit sound";
-            custMsgBox.Tag = ((Button)sender).Tag;
-            custMsgBox.Caption = "Editing sound";
-            custMsgBox.Message = "Edit the sound";
-            custMsgBox.Content = new TextBox() { Text = path };
-            custMsgBox.LeftButtonContent = "cancel";
-            custMsgBox.RightButtonContent = "save";
-            custMsgBox.Dismissed += custMsgBox_Dismissed;
-            custMsgBox.Show();
+            try
+            {
+                string path = HomebrewHelperWP.Registry.ReadString(RegistryHive.HKLM, @"SOFTWARE\Microsoft\EventSounds\Sounds\" + ((Button)sender).Tag, "Sound");
+                CustomMessageBox custMsgBox = new CustomMessageBox();
+                custMsgBox.Title = "Edit sound";
+                custMsgBox.Tag = ((Button)sender).Tag;
+                custMsgBox.Caption = "Editing sound";
+                custMsgBox.Message = "Edit the sound";
+                custMsgBox.Content = new TextBox() { Text = path };
+                custMsgBox.LeftButtonContent = "cancel";
+                custMsgBox.RightButtonContent = "save";
+                custMsgBox.Dismissed += custMsgBox_Dismissed;
+                custMsgBox.Show();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
 
         }
 
@@ -55,10 +62,13 @@ namespace wphTweaks
         {
             if (e.Result == CustomMessageBoxResult.RightButton)
             {
-                bool b = NativeRegistry.WriteString(RegistryHive.HKLM, @"SOFTWARE\Microsoft\EventSounds\Sounds\" + ((CustomMessageBox)sender).Tag, "Sound", ((TextBox)((CustomMessageBox)sender).Content).Text);
-                if (!b)
+                try
                 {
-                    MessageBox.Show("Failed: " + (CSharp___DllImport.Win32ErrorCode)NativeRegistry.GetError());
+                    HomebrewHelperWP.Registry.WriteString(RegistryHive.HKLM, @"SOFTWARE\Microsoft\EventSounds\Sounds\" + ((CustomMessageBox)sender).Tag, "Sound", ((TextBox)((CustomMessageBox)sender).Content).Text);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Failed: " + ex.Message);
                 }
             }
         }
