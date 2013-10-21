@@ -41,7 +41,7 @@ namespace HomebrewHelperWP
             }
             catch (Exception ex)
             {
-                LastError = ex.HResult;
+                LastError = (uint)ex.HResult;
             }
             return ret;
         }
@@ -70,7 +70,7 @@ namespace HomebrewHelperWP
             }
             catch (Exception ex)
             {
-                LastError = ex.HResult;
+                LastError = (uint)ex.HResult;
             }
             return ret;
         }
@@ -98,7 +98,7 @@ namespace HomebrewHelperWP
             }
             catch (Exception ex)
             {
-                LastError = ex.HResult;
+                LastError = (uint)ex.HResult;
             }
         }
         public static void WriteDWORD(RegistryHive hive, string path, string value, uint data)
@@ -125,7 +125,7 @@ namespace HomebrewHelperWP
             }
             catch(Exception ex)
             {
-                LastError = ex.HResult;
+                LastError = (uint)ex.HResult;
             }
         }
 
