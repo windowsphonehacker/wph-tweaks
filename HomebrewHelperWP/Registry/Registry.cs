@@ -22,72 +22,110 @@ namespace HomebrewHelperWP
         public static string ReadString(RegistryHive hive, string path, string value)
         {
             string ret = string.Empty;
-            if (!NativeRegistry.ReadString((global::Registry.RegistryHive)hive, path, value, out ret))
+            try
             {
-                uint error = NativeRegistry.GetError();
-                //ret = SammyReadString(hive, path, value, out error);
-                LastError = error;
-                //if (error != 0)
-                //{
-                //throw new Exception("Read failed: " + error);
-                //}
+                if (!NativeRegistry.ReadString((global::Registry.RegistryHive)hive, path, value, out ret))
+                {
+                    uint error = NativeRegistry.GetError();
+                    //ret = SammyReadString(hive, path, value, out error);
+                    LastError = error;
+                    //if (error != 0)
+                    //{
+                    //throw new Exception("Read failed: " + error);
+                    //}
+                }
+                else
+                {
+                    LastError = 0;
+                }
             }
-            else
+            catch (Exception ex)
             {
-                LastError = 0;
+                LastError = ex.HResult;
             }
             return ret;
         }
         public static uint ReadDWORD(RegistryHive hive, string path, string value)
         {
             uint ret = 0;
-            if (!NativeRegistry.ReadDWORD((global::Registry.RegistryHive)hive, path, value, out ret))
+            try
             {
-                uint error = NativeRegistry.GetError();
-                ret = SammyReadDWORD(hive, path, value, out error);
-                LastError = error;
-                //if (error != 0)
-                //{
-                //throw new Exception("Read failed: " + error);
-                //}
+                if (!NativeRegistry.ReadDWORD((global::Registry.RegistryHive)hive, path, value, out ret))
+                {
+                    uint error = NativeRegistry.GetError();
+                    if (UseSammy)
+                    {
+                        ret = SammyReadDWORD(hive, path, value, out error);
+                    }
+                    LastError = error;
+                    //if (error != 0)
+                    //{
+                    //throw new Exception("Read failed: " + error);
+                    //}
+                }
+                else
+                {
+                    LastError = 0;
+                }
             }
-            else
+            catch (Exception ex)
             {
-                LastError = 0;
+                LastError = ex.HResult;
             }
             return ret;
         }
         public static void WriteString(RegistryHive hive, string path, string value, string data)
         {
-            if (!NativeRegistry.WriteString((global::Registry.RegistryHive)hive, path, value, data))
+            try
             {
-                uint retval;
-                LastError = SammyWriteString(hive, path, value, data, out retval);
-                //if (error != 0)
-                //{
-                //    throw new Exception("Write failed: " + error);
-                //}
+                if (!NativeRegistry.WriteString((global::Registry.RegistryHive)hive, path, value, data))
+                {
+                    LastError = NativeRegistry.GetError();
+                    if (UseSammy)
+                    {
+                        uint retval;
+                        LastError = SammyWriteString(hive, path, value, data, out retval);
+                    }
+                    //if (error != 0)
+                    //{
+                    //    throw new Exception("Write failed: " + error);
+                    //}
+                }
+                else
+                {
+                    LastError = 0;
+                }
             }
-            else
+            catch (Exception ex)
             {
-                LastError = 0;
+                LastError = ex.HResult;
             }
         }
         public static void WriteDWORD(RegistryHive hive, string path, string value, uint data)
         {
-            if (!NativeRegistry.WriteDWORD((global::Registry.RegistryHive)hive, path, value, data))
+            try
             {
-                LastError = NativeRegistry.GetError();
-                uint retval;
-                LastError = SammyWriteDWORD(hive, path, value, data, out retval);
-                //if (error != 0)
-                //{
-                //    throw new Exception("Write failed: " + error);
-                //}
+                if (!NativeRegistry.WriteDWORD((global::Registry.RegistryHive)hive, path, value, data))
+                {
+                    LastError = NativeRegistry.GetError();
+                    if (UseSammy)
+                    {
+                        uint retval;
+                        LastError = SammyWriteDWORD(hive, path, value, data, out retval);
+                    }
+                    //if (error != 0)
+                    //{
+                    //    throw new Exception("Write failed: " + error);
+                    //}
+                }
+                else
+                {
+                    LastError = 0;
+                }
             }
-            else
+            catch(Exception ex)
             {
-                LastError = 0;
+                LastError = ex.HResult;
             }
         }
 
@@ -130,12 +168,20 @@ namespace HomebrewHelperWP
         }
 
         internal static bool SammyInited = false;
+        internal static bool UseSammy = true;
         internal static void InitSammy()
         {
             if (!SammyInited)
             {
-                CRPCComponent.Initialize();
-                SammyInited = true;
+                try
+                {
+                    CRPCComponent.Initialize();
+                    SammyInited = true;
+                }
+                catch
+                {
+                    UseSammy = false;
+                }
             }
         }
 
