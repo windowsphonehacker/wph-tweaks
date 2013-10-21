@@ -18,6 +18,9 @@ namespace wphTweaks
         public DisclaimerPage()
         {
             InitializeComponent();
+#if WP8
+            textBlock6.Text = "Powered by GoodDayToDie's native access libraries";
+#endif
         }
 
         private void slider1_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
@@ -33,7 +36,14 @@ namespace wphTweaks
             }
             if (e.NewValue > 7)
             {
-                NavigationService.Navigate(new Uri("/MainPage.xaml", UriKind.Relative));
+                if (NavigationService.CanGoBack)
+                {
+                    NavigationService.GoBack();
+                }
+                else
+                {
+                    NavigationService.Navigate(new Uri("/MainPage.xaml", UriKind.Relative));
+                }
             }
         }
 

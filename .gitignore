@@ -82,7 +82,7 @@ publish
 *.Publish.xml
 
 # NuGet Packages Directory
-packages
+packages/*/
 
 # Windows Azure Build Output
 csx
@@ -116,3 +116,7 @@ App_Data/*.ldf
 GeneratedArtifacts/
 _Pvt_Extensions/
 ModelManifest.xml
+
+#OS junk files
+[Tt]humbs.db
+*.DS_Store

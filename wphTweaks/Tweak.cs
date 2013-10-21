@@ -45,17 +45,17 @@ namespace wphTweaks
         //selector
         public List<SelectorTweak> options;
 
-        public WP7RootToolsSDK.RegistryHyve getHyve()
+        public WP7RootToolsSDK.RegistryHive getHive()
         {
             string firstFour = key.Substring(0,4);
             switch (firstFour)
             {
                 case "HKLM":
-                    return RegistryHyve.LocalMachine;
+                    return RegistryHive.LocalMachine;
                 case "HKCU":
-                    return RegistryHyve.CurrentUser;
+                    return RegistryHive.CurrentUser;
             }
-            return RegistryHyve.LocalMachine;
+            return RegistryHive.LocalMachine;
         }
         public string getValueName()
         {

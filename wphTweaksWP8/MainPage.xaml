@@ -1,0 +1,106 @@
+﻿<phone:PhoneApplicationPage 
+    x:Class="wphTweaks.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
+    xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
+    xmlns:controls="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"
+    xmlns:sys="clr-namespace:System;assembly=mscorlib"
+    mc:Ignorable="d" d:DesignWidth="480" d:DesignHeight="768"
+    FontFamily="{StaticResource PhoneFontFamilyNormal}"
+    FontSize="{StaticResource PhoneFontSizeNormal}"
+    Foreground="{StaticResource PhoneForegroundBrush}"
+    SupportedOrientations="Portrait" Orientation="Portrait"
+    shell:SystemTray.IsVisible="True" Loaded="PhoneApplicationPage_Loaded" >
+
+
+    <toolkit:TransitionService.NavigationInTransition>
+        <toolkit:NavigationInTransition>
+            <toolkit:NavigationInTransition.Backward>
+                <toolkit:TurnstileTransition Mode="BackwardIn"/>
+            </toolkit:NavigationInTransition.Backward>
+            <toolkit:NavigationInTransition.Forward>
+                <toolkit:TurnstileTransition Mode="ForwardIn"/>
+            </toolkit:NavigationInTransition.Forward>
+        </toolkit:NavigationInTransition>
+    </toolkit:TransitionService.NavigationInTransition>
+    <toolkit:TransitionService.NavigationOutTransition>
+        <toolkit:NavigationOutTransition>
+            <toolkit:NavigationOutTransition.Backward>
+                <toolkit:TurnstileTransition Mode="BackwardOut"/>
+            </toolkit:NavigationOutTransition.Backward>
+            <toolkit:NavigationOutTransition.Forward>
+                <toolkit:TurnstileTransition Mode="ForwardOut"/>
+            </toolkit:NavigationOutTransition.Forward>
+        </toolkit:NavigationOutTransition>
+    </toolkit:TransitionService.NavigationOutTransition>
+
+    <!--LayoutRoot is the root grid where all page content is placed-->
+    <Grid x:Name="LayoutRoot" Background="Transparent">
+        <Grid.Resources>
+            <DataTemplate x:Name="PickerItemTemplate">
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="{Binding Title}" Margin="12 0 0 0"/>
+                </StackPanel>
+            </DataTemplate>
+            <DataTemplate x:Name="PickerItemTemplateFull">
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="{Binding Title}" Margin="12 0 0 0"/>
+                </StackPanel>
+            </DataTemplate>
+        </Grid.Resources>
+
+        <controls:Pivot x:Name="pivot" 
+                ItemsSource="{Binding MyItems}"
+                SelectedItem="{Binding Path=SelectedItem, Mode=TwoWay}" Margin="0,0,0,0">
+            <controls:Pivot.HeaderTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding}" FontSize="40"/>
+                </DataTemplate>
+            </controls:Pivot.HeaderTemplate>
+            <controls:PivotItem Header="tweaks">
+                <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,0">
+                    <ScrollViewer Height="666" HorizontalAlignment="Left" Margin="6,6,0,0" Name="scrollViewer1" VerticalAlignment="Top" Width="444">
+                        <StackPanel Name="controlsPanel" Width="426" Orientation="Vertical" Loaded="controlsPanel_Loaded" />
+                    </ScrollViewer>
+
+                </Grid>
+            </controls:PivotItem>
+            <controls:PivotItem Header="tools">
+                <ScrollViewer>
+                    <StackPanel>
+                        <Button Content="rearrange settings" Height="72" Width="360" Click="rearrangeSettingsBtn_Click" Visibility="Collapsed" />
+                        <Button Content="add google search to ie" Height="72" Width="360" Click="btn_Click" />
+                        <Button Content="customize regional formatting" Height="72" Name="InternationalSettingsButton" Width="360" Click="InternationalSettingsButton_Click"/>
+                        <Button Content="customize notification sounds" Height="72" Name="SoundEditorButton" Width="360" Click="SoundEditorButton_Click"/>
+                        <Button Content="customize connection strings" Height="72" Name="DataConnectionStringsButton" Width="360" Click="DataConnectionStringsButton_Click"/>
+                        <Button Content="choose marketplace" Height="72" Name="btnUnlockMarketplace" Width="360" Click="btnUnlockMarketplace_Click" Visibility="Collapsed" />
+                        <Button Content="customize keyboard" Height="72" Name="btnCustomizeKeyboard" Width="360" Click="btnCustomizeKeyboard_Click" Visibility="Collapsed" />
+
+                        <Button Content="disable branded updates" Height="72" Name="btnBrandedUpdates" Width="360" Click="btnBrandedUpdates_Click" Visibility="Collapsed" />
+                        <Button Content="enable branded updates" Height="72" Name="btnEnableBrandedUpdates" Width="360" Click="btnEnableBrandedUpdates_Click" Visibility="Collapsed" />
+                        <Button Content="disable carrier logo" Height="72" Name="btnDisableCarrierLogo" Width="360" Click="button2_Click" Visibility="Collapsed" />
+                        <Button Content="restore carrier logo" Height="72" Name="btnRestoreCarrierLogo" Width="360" Click="btnRestoreCarrierLogo_Click" Visibility="Collapsed" />
+
+                        <Button Content="change splash" Height="72" Width="360" Click="Button_Click_1" Visibility="Collapsed" />
+
+                        <Button Content="restart phone" Height="72" x:Name="btnRestart" VerticalAlignment="Top" Width="360" Click="btnRestart_Click" FontFamily="Segoe WP Light" BorderBrush="#FFBE3A3A" Margin="48,0" Visibility="Collapsed" />
+                    </StackPanel>
+                </ScrollViewer>
+
+            </controls:PivotItem>
+            <controls:PivotItem Header="about">
+                <Grid x:Name="aboutGrid">
+                    <TextBlock Height="30" HorizontalAlignment="Left" Margin="15,37,0,0" Name="textBlock2" Text="Developed by Jaxbot and Jessenic" VerticalAlignment="Top" />
+                    <TextBlock Height="30" HorizontalAlignment="Left" Margin="14,68,0,0" Name="textBlock3" Text="WindowsPhoneHacker.com" VerticalAlignment="Top" />
+                    <TextBlock Height="25" HorizontalAlignment="Left" Margin="14,8,0,0" Name="textBlock4" Text="Version 1.5" VerticalAlignment="Top" />
+                    <TextBlock Height="30" HorizontalAlignment="Left" Margin="12,117,0,0" Name="textBlock5" Text="Powered by GoodDayToDie's native libraries" VerticalAlignment="Top" />
+                </Grid>
+            </controls:PivotItem>
+        </controls:Pivot>
+    </Grid>
+
+</phone:PhoneApplicationPage>

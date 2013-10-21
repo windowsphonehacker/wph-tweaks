@@ -32,10 +32,10 @@ namespace wphTweaks
         {
             InitializeComponent();
 
-            var key = WP7RootToolsSDK.Registry.GetKey(WP7RootToolsSDK.RegistryHyve.LocalMachine, @"\Software\Microsoft\Settings\{69DAA7D1-09EA-4eae-A67E-56E4B0B4CA5B}\SecureItems");
+            var key = WP7RootToolsSDK.Registry.GetKey(WP7RootToolsSDK.RegistryHive.LocalMachine, @"\Software\Microsoft\Settings\{69DAA7D1-09EA-4eae-A67E-56E4B0B4CA5B}\SecureItems");
             foreach (WP7RootToolsSDK.RegistryValue id in key.GetSubItems())
             {
-                string title = WP7RootToolsSDK.Registry.GetStringValue(WP7RootToolsSDK.RegistryHyve.LocalMachine, @"\Software\Microsoft\Settings\" + id.ValueName, "Title");
+                string title = WP7RootToolsSDK.Registry.GetStringValue(WP7RootToolsSDK.RegistryHive.LocalMachine, @"\Software\Microsoft\Settings\" + id.ValueName, "Title");
                 settings.Add(new settingid() { id = id.ValueName, title = title, order = Convert.ToInt16(id.Value) });
             }
             settings = new ObservableCollection<settingid>(settings.OrderBy(item => item.order));
@@ -49,7 +49,7 @@ namespace wphTweaks
             int i = 0;
             foreach (settingid id in settings)
             {
-                WP7RootToolsSDK.Registry.SetDWordValue(WP7RootToolsSDK.RegistryHyve.LocalMachine, @"\Software\Microsoft\Settings\{69DAA7D1-09EA-4eae-A67E-56E4B0B4CA5B}\SecureItems", id.id, (uint)i);
+                WP7RootToolsSDK.Registry.SetDWordValue(WP7RootToolsSDK.RegistryHive.LocalMachine, @"\Software\Microsoft\Settings\{69DAA7D1-09EA-4eae-A67E-56E4B0B4CA5B}\SecureItems", id.id, (uint)i);
                 i++;
             }
         }

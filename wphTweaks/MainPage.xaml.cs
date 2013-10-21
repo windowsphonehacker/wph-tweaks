@@ -44,7 +44,7 @@ namespace wphTweaks
                             var val = 0;
                             try
                             {
-                                val = (int)WP7RootToolsSDK.Registry.GetDWordValue(tweak.getHyve(), tweak.getKeyName(), tweak.getValueName());
+                                val = (int)WP7RootToolsSDK.Registry.GetDWordValue(tweak.getHive(), tweak.getKeyName(), tweak.getValueName());
                             }
                             catch
                             {
@@ -57,7 +57,7 @@ namespace wphTweaks
                             var val = "";
                             try
                             {
-                                val = WP7RootToolsSDK.Registry.GetStringValue(tweak.getHyve(), tweak.getKeyName(), tweak.getValueName());
+                                val = WP7RootToolsSDK.Registry.GetStringValue(tweak.getHive(), tweak.getKeyName(), tweak.getValueName());
                             }
                             catch
                             {
@@ -112,11 +112,11 @@ namespace wphTweaks
             //http://www.google.com/search?hl=en&q={searchTerms}&meta=
             try
             {
-                WP7RootToolsSDK.Registry.CreateKey(WP7RootToolsSDK.RegistryHyve.CurrentUser, @"Software\Microsoft\Internet Explorer\SearchProviders\Google");
+                WP7RootToolsSDK.Registry.CreateKey(WP7RootToolsSDK.RegistryHive.CurrentUser, @"Software\Microsoft\Internet Explorer\SearchProviders\Google");
             } catch {
             }
             try {
-                WP7RootToolsSDK.Registry.SetStringValue(WP7RootToolsSDK.RegistryHyve.CurrentUser, @"Software\Microsoft\Internet Explorer\SearchProviders\Google", "URL", "http://www.google.com/search?hl=en&q={searchTerms}&meta=");
+                WP7RootToolsSDK.Registry.SetStringValue(WP7RootToolsSDK.RegistryHive.CurrentUser, @"Software\Microsoft\Internet Explorer\SearchProviders\Google", "URL", "http://www.google.com/search?hl=en&q={searchTerms}&meta=");
             }
             catch
             {
@@ -142,6 +142,7 @@ namespace wphTweaks
 
             LayoutRoot.Visibility = System.Windows.Visibility.Visible;
 
+            UpdateChecker.CheckUpdatesAsync();
         }
 
         void picker_Tap(object sender, System.Windows.Input.GestureEventArgs e)
@@ -168,17 +169,17 @@ namespace wphTweaks
                         if (tweak.keyType == Tweak.tweakType.str)
                         {
                             string val = ((SelectorTweak)ctrl.SelectedItem).Value;
-                            WP7RootToolsSDK.Registry.SetStringValue(tweak.getHyve(), tweak.getKeyName(), tweak.getValueName(), val);
+                            WP7RootToolsSDK.Registry.SetStringValue(tweak.getHive(), tweak.getKeyName(), tweak.getValueName(), val);
                             System.Diagnostics.Debug.WriteLine(val);
                         }
                         else
                         {
                             try {
-                                WP7RootToolsSDK.Registry.CreateKey(tweak.getHyve(), tweak.getKeyName());
+                                WP7RootToolsSDK.Registry.CreateKey(tweak.getHive(), tweak.getKeyName());
                             } catch {
                             }
                             int val = ((SelectorTweak)ctrl.SelectedItem).IntValue;
-                            WP7RootToolsSDK.Registry.SetDWordValue(tweak.getHyve(), tweak.getKeyName(), tweak.getValueName(), (uint)val);
+                            WP7RootToolsSDK.Registry.SetDWordValue(tweak.getHive(), tweak.getKeyName(), tweak.getValueName(), (uint)val);
                             if (tweak.rebootNeeded)
                                 rbneeded();
                         }
@@ -201,18 +202,18 @@ namespace wphTweaks
                         {
                             try
                             {
-                                WP7RootToolsSDK.Registry.CreateKey(tweak.getHyve(), tweak.getKeyName());
+                                WP7RootToolsSDK.Registry.CreateKey(tweak.getHive(), tweak.getKeyName());
                             }
                             catch
                             {
                             }
                             int val = (ctrl.IsChecked.Value ? tweak.onValue : tweak.offValue);
-                            WP7RootToolsSDK.Registry.SetDWordValue(tweak.getHyve(), tweak.getKeyName(), tweak.getValueName(), (uint)val);
+                            WP7RootToolsSDK.Registry.SetDWordValue(tweak.getHive(), tweak.getKeyName(), tweak.getValueName(), (uint)val);
                         }
                         else
                         {
                             string val = (ctrl.IsChecked.Value ? tweak.strOnValue : tweak.strOffValue);
-                            WP7RootToolsSDK.Registry.SetStringValue(tweak.getHyve(), tweak.getKeyName(), tweak.getValueName(), val);
+                            WP7RootToolsSDK.Registry.SetStringValue(tweak.getHive(), tweak.getKeyName(), tweak.getValueName(), val);
                         }
                         if (tweak.rebootNeeded)
                         {
@@ -244,8 +245,8 @@ namespace wphTweaks
             String[] obvals = { "MOName", "OemName", "MobileOperator" };
             foreach (String val in obvals)
             {
-                old = WP7RootToolsSDK.Registry.GetStringValue(WP7RootToolsSDK.RegistryHyve.LocalMachine, @"System\Platform\DeviceTargetingInfo", val);
-                WP7RootToolsSDK.Registry.SetStringValue(WP7RootToolsSDK.RegistryHyve.LocalMachine, @"System\Platform\DeviceTargetingInfo", val, old + "_blocked");
+                old = WP7RootToolsSDK.Registry.GetStringValue(WP7RootToolsSDK.RegistryHive.LocalMachine, @"System\Platform\DeviceTargetingInfo", val);
+                WP7RootToolsSDK.Registry.SetStringValue(WP7RootToolsSDK.RegistryHive.LocalMachine, @"System\Platform\DeviceTargetingInfo", val, old + "_blocked");
             }
 
         }
@@ -257,8 +258,8 @@ namespace wphTweaks
            
             foreach (String val in obvals)
             {
-                old = WP7RootToolsSDK.Registry.GetStringValue(WP7RootToolsSDK.RegistryHyve.LocalMachine, @"System\Platform\DeviceTargetingInfo", val);
-                WP7RootToolsSDK.Registry.SetStringValue(WP7RootToolsSDK.RegistryHyve.LocalMachine, @"System\Platform\DeviceTargetingInfo", val, old.Replace("_blocked", ""));
+                old = WP7RootToolsSDK.Registry.GetStringValue(WP7RootToolsSDK.RegistryHive.LocalMachine, @"System\Platform\DeviceTargetingInfo", val);
+                WP7RootToolsSDK.Registry.SetStringValue(WP7RootToolsSDK.RegistryHive.LocalMachine, @"System\Platform\DeviceTargetingInfo", val, old.Replace("_blocked", ""));
             }
             
         }

@@ -30,7 +30,7 @@ namespace wphTweaks
         {
             try
             {
-                var results = WP7RootToolsSDK.Registry.GetMultiStringValue(WP7RootToolsSDK.RegistryHyve.LocalMachine, key, tbKey.Text);
+                var results = WP7RootToolsSDK.Registry.GetMultiStringValue(WP7RootToolsSDK.RegistryHive.LocalMachine, key, tbKey.Text);
                 tbAlternates.Text = String.Join("\r\n", results);
             }
             catch
@@ -44,7 +44,7 @@ namespace wphTweaks
             try
             {
                 tbAlternates.Text = tbAlternates.Text.Replace("\n", "");
-                WP7RootToolsSDK.Registry.SetMultiStringValue(WP7RootToolsSDK.RegistryHyve.LocalMachine, key, tbKey.Text, tbAlternates.Text.Split(new string[] { "\r" }, StringSplitOptions.RemoveEmptyEntries));
+                WP7RootToolsSDK.Registry.SetMultiStringValue(WP7RootToolsSDK.RegistryHive.LocalMachine, key, tbKey.Text, tbAlternates.Text.Split(new string[] { "\r" }, StringSplitOptions.RemoveEmptyEntries));
             }
             catch (Exception err)
             {

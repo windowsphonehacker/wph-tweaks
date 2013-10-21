@@ -1,0 +1,131 @@
+WP7 Root Tools SDK Sample code
+------------------------------
+
+// Environment
+
+System.Diagnostics.Debug.Assert(WP7RootToolsSDK.Environment.HasRootAccess());
+
+WP7RootToolsSDK.Environment.ProcessConfigXml("<wap-provisioningdoc><characteristic type=\"Registry\"><characteristic type=\"HKLM\\MyKey\">" +
+	"<parm name=\"TestValue\" datatype=\"integer\" value=\"10000\"/></characteristic></characteristic></wap-provisioningdoc>");
+
+WP7RootToolsSDK.Environment.ShellExecute(@"\Windows\PacManInstaller.exe");
+
+// FileSystem
+
+WP7RootToolsSDK.Folder folder = WP7RootToolsSDK.FileSystem.GetFolder("\\Applications");
+List<WP7RootToolsSDK.FileSystemEntry> items = folder.GetSubItems();
+
+System.Diagnostics.Debug.Assert(items.Count >= 2); // Expect at least "Data" and "Install" folder
+
+// Write UTF8 text file
+string writetext = "Heathcliff74";
+WP7RootToolsSDK.FileSystem.WriteFile(@"\Windows\MyTestFile.txt", System.Text.Encoding.UTF8.GetBytes(writetext));
+
+System.Diagnostics.Debug.Assert(WP7RootToolsSDK.FileSystem.FileExists(@"\Windows\MyTestFile.txt"));
+
+// Read UTF8 text file
+byte[] buffer = WP7RootToolsSDK.FileSystem.ReadFile(@"\Windows\MyTestFile.txt");
+string readtext = System.Text.Encoding.UTF8.GetString(buffer, 0, buffer.Length);
+
+System.Diagnostics.Debug.Assert(readtext == "Heathcliff74");
+
+WP7RootToolsSDK.FileSystem.CreateFolder(@"\MyTestFolder");
+
+System.Diagnostics.Debug.Assert(WP7RootToolsSDK.FileSystem.FileExists(@"\MyTestFolder"));
+
+if (WP7RootToolsSDK.FileSystem.FileExists(@"\MyTestFolder\MyTestFile.txt"))
+	WP7RootToolsSDK.FileSystem.DeleteFile(@"\MyTestFolder\MyTestFile.txt");
+
+WP7RootToolsSDK.FileSystem.MoveFile(@"\Windows\MyTestFile.txt", @"\MyTestFolder\MyTestFile.txt");
+
+System.Diagnostics.Debug.Assert(WP7RootToolsSDK.FileSystem.FileExists(@"\MyTestFolder\MyTestFile.txt") && !WP7RootToolsSDK.FileSystem.FileExists(@"\Windows\MyTestFile.txt"));
+
+WP7RootToolsSDK.FileSystem.CopyFile(@"\MyTestFolder\MyTestFile.txt", @"\MyTestFolder\MyTestFile2.txt");
+
+System.Diagnostics.Debug.Assert(WP7RootToolsSDK.FileSystem.FileExists(@"\MyTestFolder\MyTestFile2.txt"));
+
+buffer = new byte[0];
+WP7RootToolsSDK.FileSystem.WriteFile(@"\MyTestFolder\ZeroLength.txt", buffer);
+buffer = WP7RootToolsSDK.FileSystem.ReadFile(@"\MyTestFolder\ZeroLength.txt");
+
+System.Diagnostics.Debug.Assert((buffer != null) && (buffer.Length == 0));
+
+WP7RootToolsSDK.FileStream fillstream = new WP7RootToolsSDK.FileStream(@"\MyTestFolder\Fill.txt", WP7RootToolsSDK.FileStreamMode.ReadWrite);
+fillstream.SetLength(10);
+fillstream.Position = 3;
+fillstream.Write(System.Text.Encoding.UTF8.GetBytes("Test"), 0, 4);
+fillstream.Close();
+fillstream = new WP7RootToolsSDK.FileStream(@"\MyTestFolder\Fill.txt", WP7RootToolsSDK.FileStreamMode.Read);
+long l = fillstream.Length;
+fillstream.Position = 3;
+buffer = new byte[4];
+fillstream.Read(buffer, 0, 4);
+fillstream.Close();
+
+System.Diagnostics.Debug.Assert(l == 10);
+System.Diagnostics.Debug.Assert(System.Text.Encoding.UTF8.GetString(buffer, 0, buffer.Length) == "Test");
+
+WP7RootToolsSDK.FileStream s = new WP7RootToolsSDK.FileStream(@"\MyTestFolder\MyTestFile3.txt", WP7RootToolsSDK.FileStreamMode.Write);
+buffer = System.Text.Encoding.UTF8.GetBytes(writetext);
+s.Write(buffer, 0, 6);
+s.Write(buffer, 6, 6);
+s.Close();
+
+System.Diagnostics.Debug.Assert(WP7RootToolsSDK.FileSystem.GetFileSize(@"\MyTestFolder\MyTestFile3.txt") == 12);
+
+buffer = new byte[12];
+s = new WP7RootToolsSDK.FileStream(@"\MyTestFolder\MyTestFile3.txt", WP7RootToolsSDK.FileStreamMode.Read);
+s.Read(buffer, 0, 6);
+s.Read(buffer, 6, 6);
+s.Close();
+
+readtext = System.Text.Encoding.UTF8.GetString(buffer, 0, buffer.Length);
+
+System.Diagnostics.Debug.Assert(readtext == "Heathcliff74");
+
+// Applications
+
+List<WP7RootToolsSDK.ApplicationInfo> AppList = WP7RootToolsSDK.Applications.GetApplicationList();
+
+System.Diagnostics.Debug.Assert((AppList != null) && (AppList.Count >= 1) && (AppList[0].Name == WP7RootToolsSDK.Applications.GetApplicationName(AppList[0].ProductID)));
+
+// Registry
+
+WP7RootToolsSDK.Registry.CreateKey(WP7RootToolsSDK.RegistryHive.LocalMachine, "MyKey");
+
+WP7RootToolsSDK.Registry.SetStringValue(WP7RootToolsSDK.RegistryHive.LocalMachine, "MyKey", "MyStringValue", writetext);
+readtext = WP7RootToolsSDK.Registry.GetStringValue(WP7RootToolsSDK.RegistryHive.LocalMachine, "MyKey", "MyStringValue");
+
+System.Diagnostics.Debug.Assert(readtext == writetext);
+
+UInt32 writevalue = 74;
+WP7RootToolsSDK.Registry.SetDWordValue(WP7RootToolsSDK.RegistryHive.LocalMachine, "MyKey", "MyDWordValue", writevalue);
+UInt32 readvalue = WP7RootToolsSDK.Registry.GetDWordValue(WP7RootToolsSDK.RegistryHive.LocalMachine, "MyKey", "MyDWordValue");
+
+System.Diagnostics.Debug.Assert(readvalue == writevalue);
+
+WP7RootToolsSDK.RegistryKey MyKey = WP7RootToolsSDK.Registry.GetKey(WP7RootToolsSDK.RegistryHive.LocalMachine, "MyKey");
+
+System.Diagnostics.Debug.Assert(MyKey.GetSubItems().Count >= 2);
+
+WP7RootToolsSDK.Registry.SetValue(WP7RootToolsSDK.RegistryHive.LocalMachine, "MyKey", "MyStringValue", writetext);
+readtext = (string)WP7RootToolsSDK.Registry.GetValue(WP7RootToolsSDK.RegistryHive.LocalMachine, "MyKey", "MyStringValue");
+
+System.Diagnostics.Debug.Assert(readtext == writetext);
+
+WP7RootToolsSDK.Registry.SetValue(WP7RootToolsSDK.RegistryHive.LocalMachine, "MyKey", "MyDWordValue", writevalue);
+readvalue = (UInt32)WP7RootToolsSDK.Registry.GetValue(WP7RootToolsSDK.RegistryHive.LocalMachine, "MyKey", "MyDWordValue");
+
+System.Diagnostics.Debug.Assert(readvalue == writevalue);
+
+WP7RootToolsSDK.Registry.SetValue(WP7RootToolsSDK.RegistryHive.LocalMachine, "MyKey", "MyMultiStringValue", new string[] { "Test1" ,"Test2" , "Test3" });
+string[] readstrings = (string[])WP7RootToolsSDK.Registry.GetValue(WP7RootToolsSDK.RegistryHive.LocalMachine, "MyKey", "MyMultiStringValue");
+
+System.Diagnostics.Debug.Assert((readstrings.Length == 3) && (readstrings[0] == "Test1") && (readstrings[1] == "Test2") && (readstrings[2] == "Test3"));
+
+WP7RootToolsSDK.Registry.SetValue(WP7RootToolsSDK.RegistryHive.LocalMachine, "MyKey", "MyBinaryValue", new byte[] { 0, 1, 2 });
+byte[] readbytes = (byte[])WP7RootToolsSDK.Registry.GetValue(WP7RootToolsSDK.RegistryHive.LocalMachine, "MyKey", "MyBinaryValue");
+
+System.Diagnostics.Debug.Assert((readbytes.Length == 3) && (readbytes[0] == 0) && (readbytes[1] == 1) && (readbytes[2] == 2));
+
+WP7RootToolsSDK.Registry.DeleteKey(WP7RootToolsSDK.RegistryHive.LocalMachine, "MyKey");
